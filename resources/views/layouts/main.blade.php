@@ -40,7 +40,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @if(Auth::user()->user_type_id==1)
+                            <li class="nav-item d-none d-sm-inline-block">
+                              <a href="{{url('home')}}" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                {{-- <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a> --}}
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Admin</a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"   style="font-size: small">
+                                <a class="dropdown-item" href="{{ url('/project/management') }}">Project Management</a>
+                                <a class="dropdown-item" href="{{ url('/user') }}">User Settings</a>
+                                <a class="dropdown-item" href="{{ url('/admin/user_role/index') }}">User Role</a>
+                                <a class="dropdown-item" href="{{ url('/settings/1/index') }}">User Type</a>
+                                <a class="dropdown-item" href="{{ url('/settings/2/index') }}">Organization</a>
+                                {{-- <a class="dropdown-item" href="{{ url('/settings/2/index') }}">Project Type</a> --}}
+                                </div>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

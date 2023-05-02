@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <filter_parameter-component></filter_parameter-component>
+            <filter_parameter-component :project_id={{$project->id}}></filter_parameter-component>
             {{-- <div class="card">
                 <div class="card-header">{{ __('Frequency Table') }}</div>
 

@@ -33,23 +33,40 @@ app.component('dashboard-component', DashboardComponent);
 app.component('search_operation-component', SearchOperationComponent);
 
 
+import SurveyFiltersComponent from './components/settings/SurveyFiltersComponent.vue';
 import FilterParameterComponent from './components/settings/FilterParameterComponent.vue';
+import ShowingVariablesComponent from './components/settings/ShowingVariablesComponent.vue';
+
+app.component('survey_filters-component', SurveyFiltersComponent);
+app.component('filter_parameter-component', FilterParameterComponent);
+app.component('showing_variables-component', ShowingVariablesComponent);
 
 
+import UserTypeComponent from './components/admin/UserTypeComponent.vue';
+app.component('user_type-component', UserTypeComponent);
+// Vue.component('user_type-component', require('./components/UserTypeComponent.vue').default);
 
+import UserRoleComponent from './components/admin/UserRoleComponent.vue';
+app.component('user_role-component', UserRoleComponent);
+import SupportInfoComponent from './components/settings/SupportInfoComponent.vue';
+app.component('support_info-component', SupportInfoComponent);
 
 import FirstComponent from './components/dashboard/FirstComponent.vue';
 import SecondComponent from './components/dashboard/SecondComponent.vue';
 import ThirdComponent from './components/dashboard/ThirdComponent.vue';
+import ForthComponent from './components/dashboard/ForthComponent.vue';
+import FifthComponent from './components/dashboard/FifthComponent.vue';
 
 
 app.component('first-component', FirstComponent);
 app.component('second-component', SecondComponent);
 app.component('third-component', ThirdComponent);
+app.component('forth-component', ForthComponent);
+app.component('fifth-component', FifthComponent);
 
 
 
-app.component('filter_parameter-component', FilterParameterComponent);
+
 
 /**
  * The following block of code may be used to automatically register your

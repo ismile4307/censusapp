@@ -1,12 +1,11 @@
 @extends('layouts.app')
 @section('style')
     <!-- Styles Created By Ismile -->
-    <link href="/assets/css/table.css" rel="stylesheet">
+    {{-- <link href="/assets/css/table.css" rel="stylesheet"> --}}
     {{-- <link href="/assets/css/table_kpi.css" rel="stylesheet"> --}}
     {{-- <link href="{{ asset('public/css/app.css') }}" rel="stylesheet"> --}}
     
-
-
+    
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -41,6 +40,7 @@
         color: black;
         } */
     
+        .date{ z-index:1151 !important; }
     </style>
   
 @endsection
@@ -80,5 +80,14 @@ function activeMenu() {
 //     $(document).ready( function() {
 //   $('#data-analysis-list').addClass( 'menu-open' );
 // } );
+
+$("body").delegate(".date", "focusin", function () {
+            
+            $(this).datepicker({  
+           format: 'dd-mm-yyyy',
+           autoclose:true
+         });
+        });
 </script>
+
 

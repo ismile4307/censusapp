@@ -13,23 +13,37 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+  
     {{-- googleChart --}}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <!-- Fonts -->
+
+    
+    <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" 
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+          crossorigin="anonymous"></script>
+  {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
+  
+  
+  <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     {{-- bootstrap --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+          crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
 
-    <!-- Scripts -->
+       <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 
@@ -48,14 +62,17 @@
     <!-- JQVMap -->
     <!-- <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css"> -->
     <!-- Theme style -->
-    <link rel="stylesheet" href="http://localhost:8000/dist/css/adminlte.min.css">
+    {{-- <link rel="stylesheet" href="http://localhost:8000/dist/css/adminlte.min.css"> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="http://localhost:8000/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    {{-- <link rel="stylesheet" href="http://localhost:8000/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"> --}}
     <!-- Daterange picker -->
     <!-- <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css"> -->
     <!-- summernote -->
-    <link rel="stylesheet" href="http://localhost:8000/plugins/summernote/summernote-bs4.min.css">
-
+    {{-- <link rel="stylesheet" href="http://localhost:8000/plugins/summernote/summernote-bs4.min.css"> --}}
+<style>
+  .date{ z-index:99999 !important; }
+</style>
     @yield('style')
 </head>
 
@@ -73,14 +90,16 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+          <a class="nav-link" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></a>
+          {{-- <a class="nav-link" data-toggle="collapse" role="button"><i class="fas fa-bars"></i></a> --}}
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="{{url('home')}}" class="nav-link">Home</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        {{-- <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">Contact</a>
-        </li>
+        </li> --}}
+        
       </ul>
   
       <!-- Right navbar links -->
@@ -118,7 +137,7 @@
               </li>
           @endguest
         <li class="nav-item">
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <a class="nav-link" id="fullscreen" data-widget="fullscreen" href="#" role="button">
             <i class="fas fa-expand-arrows-alt"></i>
           </a>
         </li>
@@ -134,7 +153,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-secondary elevation-4">
       <!-- Brand Logo -->
-      <a href="../../../../www.dbibd.com" class="brand-link">
+      <!--<a href="../../../../www.dbibd.com" class="brand-link">-->
+      <a href="" class="brand-link">
         <img src="http://localhost:8000/dist/img/logo.png" alt="AdminLTE Logo" class="brand-image img-square elevation-3" style="width: 30px;margin-top:5px">
         <span class="brand-text font-weight-light">DBI Research Pvt Ltd.</span>
       </a>
@@ -176,83 +196,113 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item" id="data-analysis-list">
-              <a href="#" class="nav-link" id="data-analysis-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  Data Analysis
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{ url('/data_analysis/' . $project->id . '/survey_data') }}" class="nav-link" id="survey-data-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Survey Data</p>
-                  </a>
-                </li>
-                {{-- <li class="nav-item">
-                  <a href="{{ url('/data_analysis/' . $project->id . '/frequency_table') }}" class="nav-link" id="frequency-table-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Frequency Table</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{ url('/data_analysis/' . $project->id . '/cross_table') }}" class="nav-link" id="cross-table-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Cross Table</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{ url('/data_analysis/' . $project->id . '/advanced_analysis') }}" class="nav-link" id="advanced-analysis-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Advance Analysis</p>
-                  </a>
-                </li> --}}
-                <li class="nav-item">
-                  <a href="{{ url('/data_analysis/' . $project->id . '/dashboard') }}" class="nav-link" id="dashboard-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Dashboard</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{ url('/data_analysis/' . $project->id . '/search_operation') }}" class="nav-link" id="search-operation-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Search Operation</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item" id="settings-list">
-              <a href="#" class="nav-link" id="settings-link">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                  Settings
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{url('/settings/' . $project->id . '/filter_parameters')}}" class="nav-link" id="filter-parameters-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Filter Parameters</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Project User</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/boxed.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Project Duration</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+            @if($activity->A11==1 || $activity->A12==1 || $activity->A13==1 || $activity->A14==1 || $activity->A15==1)
+              <li class="nav-item" id="data-analysis-list">
+                <a href="#" class="nav-link" id="data-analysis-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Data Analysis
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  @if($activity->A11==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/data_analysis/' . $project->id . '/survey_data') }}" class="nav-link" id="survey-data-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Survey Data</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A12==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/data_analysis/' . $project->id . '/frequency_table') }}" class="nav-link" id="frequency-table-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Frequency Table</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A13==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/data_analysis/' . $project->id . '/cross_table') }}" class="nav-link" id="cross-table-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Cross Table</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A14==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/data_analysis/' . $project->id . '/advanced_analysis') }}" class="nav-link" id="advanced-analysis-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Advance Analysis</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A15==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/data_analysis/' . $project->id . '/dashboard') }}" class="nav-link" id="dashboard-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Dashboard</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A16==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/data_analysis/' . $project->id . '/search_operation') }}" class="nav-link" id="search-operation-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Search Operation</p>
+                      </a>
+                    </li>
+                  @endif
+                </ul>
+              </li>
+            @endif
+
+            @if($activity->A21==1 || $activity->A22==1 || $activity->A23==1)
+              <li class="nav-item" id="settings-list">
+                <a href="#" class="nav-link" id="settings-link">
+                  <i class="nav-icon fas fa-copy"></i>
+                  <p>
+                    Settings
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  @if($activity->A21==1)
+                    <li class="nav-item">
+                      <a href="{{url('/settings/' . $project->id . '/survey_filters/index')}}" class="nav-link" id="survey-finters-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Survey Filters</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A22==1)
+                    <li class="nav-item">
+                      <a href="{{url('/settings/' . $project->id . '/filter_parameters/index')}}" class="nav-link" id="filter-parameters-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Filter Parameters</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if($activity->A23==1)
+                    <li class="nav-item">
+                      <a href="{{url('/settings/' . $project->id . '/set_variables/index')}}" class="nav-link" id="showing-varibles-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Set View Variables</p>
+                      </a>
+                    </li>
+                  @endif
+                  {{-- @if($activity->A24==1)
+                    <li class="nav-item">
+                      <a href="pages/layout/boxed.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Project Duration</p>
+                      </a>
+                    </li>
+                  @endif --}}
+                </ul>
+              </li>
+            @endif
             {{-- <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
@@ -412,17 +462,16 @@
     <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-  
-  <!-- jQuery -->
+  <!-- jQuery for left manu-->
   <script src="http://localhost:8000/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
-  <script src="http://localhost:8000/plugins/jquery-ui/jquery-ui.min.js"></script>
+  {{-- <script src="http://localhost:8000/plugins/jquery-ui/jquery-ui.min.js"></script> --}}
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   {{-- <script>
     $.widget.bridge('uibutton', $.ui.button)
   </script> --}}
   <!-- Bootstrap 4 -->
-  <script src="http://localhost:8000/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  {{-- <script src="http://localhost:8000/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
   <!-- ChartJS -->
   <!-- <script src="plugins/chart.js/Chart.min.js"></script> -->
   <!-- Sparkline -->
@@ -440,13 +489,44 @@
   <!-- Summernote -->
   <!-- <script src="plugins/summernote/summernote-bs4.min.js"></script> -->
   <!-- overlayScrollbars sidebar-->
-  <script src="http://localhost:8000/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  {{-- <script src="http://localhost:8000/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script> --}}
+  
+  
+
   <!-- AdminLTE App -->
-  <script src="http://localhost:8000/dist/js/adminlte.js"></script>
+  {{-- <script src="http://localhost:8000/dist/js/adminlte.js"></script> --}}
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <!-- <script src="dist/js/demo.js"></script> -->
   <!-- AdminLTE data_analysis demo (This is only for demo purposes) -->
   <!-- <script src="dist/js/pages/data_analysis.js"></script> -->
+
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('.date').datepicker({  
+           format: 'dd-mm-yyyy',
+           autoclose:true
+         });  
+        });
+
+        // $("body").delegate(".date", "focusin", function () {
+            
+        //     $(this).datepicker({  
+        //    format: 'dd-mm-yyyy',
+        //    autoclose:true
+        //  });
+        // });
+    </script> 
+
   @yield('script')
   </body>
 </html>

@@ -15,10 +15,10 @@
                         @endif
                         <div class="text-center">
                             <h2><b>Project Name : {{$project->project_name}}</b></h2>
-                            <h3>Total Sample : 1326</h3>
-                            <h3>Total Center : 01</h3>
-                            <h4>Project Duratoin : 12.01.2023 - 27.01.2023</h4>
-                            <h4>Fieldwork By : DBI Research and Crystal</h4>
+                            <h3>Total Sample : 2652</h3>
+                            <h3>Total Center : 08</h3>
+                            <h4>Project Duratoin : 11.03.2023 - 19.03.2023</h4>
+                            {{-- <h4>Fieldwork By : DBI Research Privte Ltd.</h4> --}}
                         </div>
 
                     </div>

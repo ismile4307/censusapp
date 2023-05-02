@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'organization_id',
+        'user_type_id',
+        'status',
     ];
 
     /**
@@ -41,4 +44,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function organization()
+    {
+        return $this->belongsTo('App\Models\Organization');
+    }
+
+    public function user_type()
+    {
+        return $this->belongsTo('App\Models\UserType');
+    }
 }

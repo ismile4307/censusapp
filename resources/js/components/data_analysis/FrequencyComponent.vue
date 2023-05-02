@@ -51,15 +51,15 @@
                                 </thead>
                                         
                                 <tbody>
+                                    <tr>
+                                        <td><b>Base</b></td>
+                                        <td class="text-center"><b>{{ GrandTotal.count_total}}</b></td>
+                                        <td class="text-center"><b>{{ GrandTotal.pct_total }}</b></td>
+                                    </tr>
                                     <tr v-for="(data, index) in perData" :key="index" >
                                         <td>{{ data.Label }}</td>
                                         <td class="text-center">{{ data.Total }}</td>
                                         <td class="text-center">{{ data.Percentage }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Total</b></td>
-                                        <td class="text-center"><b>{{ GrandTotal.count_total}}</b></td>
-                                        <td class="text-center"><b>{{ GrandTotal.pct_total }}</b></td>
                                     </tr>
                                 </tbody>
                             </table>
