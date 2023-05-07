@@ -176,11 +176,8 @@ class CrossTableController extends Controller
                     GROUP BY response' );
             
             $table_base = DB::select($my_query.' 
-                FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response, att.attribute_label, data_sr.'.$yqid.'
-                    FROM `data_sr_'.$project_code.'` as data_sr 
-                    INNER JOIN '.$xqid.'_'.$project_code.' as '.$xqid.' ON data_sr.RespondentId='.$xqid.'.RespondentId
-                    INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
-                    WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.') myData');
+                FROM ( SELECT data_sr.RespondentId, "attribute_label" as attribute_label, data_sr.'.$yqid.' 
+                FROM data_sr_'.$project_code.' AS data_sr )myData');
     
             $table_pct=$this->get_pct_table_1x1x0($table_base,$table_count);
 
@@ -226,14 +223,15 @@ class CrossTableController extends Controller
             
 
         }else if($xqtype[0]->qtype == 2 && $yqtype[0]->qtype==2){
-            $sumquery = ' SELECT attribute_label as Label, count(DISTINCT RespondentId  ) as total, ';
-        
+            $my_query = ' SELECT attribute_label as Label, count(DISTINCT RespondentId  ) as total, ';
+            $sum_query='';
             foreach($yattrib  as $y ){
-                $sumquery =  $sumquery.' SUM(CASE WHEN response='.$y->attribute_value.' THEN 1 ELSE 0 END ) AS '.$y->qid.$y->attribute_value.',';
+                $sum_query =  $sum_query.' SUM(CASE WHEN response='.$y->attribute_value.' THEN 1 ELSE 0 END ) AS '.$y->qid.$y->attribute_value.',';
             }
             
-            $sumquery=Str::substr($sumquery,0,Str::length($sumquery)-1);
-            $sumquery = DB::select($sumquery.' 
+            $my_query=$my_query.$sum_query;
+            $my_query=Str::substr($my_query,0,Str::length($my_query)-1);
+            $table_count = DB::select($my_query.' 
                 FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
                         FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
                         INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
@@ -245,12 +243,29 @@ class CrossTableController extends Controller
                     //         FROM data_sr_'.$project_code.' AS data_sr INNER JOIN attributes AS att ON data_sr.'.$xqid.'=att.attribute_value 
                     //         WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.')myData ');
             
-            $attr_label = DB::select('SELECT attribute_label, attribute_value FROM attributes WHERE attributes.qid = "'.$yqid.'" AND project_code='.$project_code);
+            // $attr_label = DB::select('SELECT attribute_label, attribute_value FROM attributes WHERE attributes.qid = "'.$yqid.'" AND project_code='.$project_code);
+
+            $table_base = DB::select($my_query.' 
+            FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
+                    FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
+                    INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
+                    INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
+                    WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.') myData');
+        
+            $table_pct=$this->get_pct_table_1x1x0($table_base,$table_count);
+            
+            $all_table=array();
+
+            array_push($all_table,$table_base);
+            array_push($all_table,$table_count);
+            array_push($all_table,$table_pct);
 
             // dd( $sumquery);
-            return [$sumquery, $attr_label,$xaxis,$yaxis,$zaxis];
+            return $all_table;
             
 
+        }else if($xqtype[0]->qtype == 4 && $yqtype[0]->qtype==1){
+        }else if($xqtype[0]->qtype == 4 && $yqtype[0]->qtype==2){
         }
     }
 
@@ -318,15 +333,20 @@ class CrossTableController extends Controller
                             FROM `data_sr_'.$project_code.'` as data_sr 
                             INNER JOIN '.$xqid.'_'.$project_code.' as '.$xqid.' ON data_sr.RespondentId='.$xqid.'.RespondentId
                             INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
-                            WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.'AND data_sr.'.$zqid.'="'.$fltr_value.'") myData 
+                            WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.' AND data_sr.'.$zqid.'="'.$fltr_value.'") myData 
                         GROUP BY response' );
                 
+                // $table_base = DB::select($my_query.' 
+                //     FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response, att.attribute_label, data_sr.'.$yqid.'
+                //         FROM `data_sr_'.$project_code.'` as data_sr 
+                //         INNER JOIN '.$xqid.'_'.$project_code.' as '.$xqid.' ON data_sr.RespondentId='.$xqid.'.RespondentId
+                //         INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
+                //         WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.'AND data_sr.'.$zqid.'="'.$fltr_value.'") myData');
+
                 $table_base = DB::select($my_query.' 
-                    FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response, att.attribute_label, data_sr.'.$yqid.'
-                        FROM `data_sr_'.$project_code.'` as data_sr 
-                        INNER JOIN '.$xqid.'_'.$project_code.' as '.$xqid.' ON data_sr.RespondentId='.$xqid.'.RespondentId
-                        INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
-                        WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.'AND data_sr.'.$zqid.'="'.$fltr_value.'") myData');
+                    FROM ( SELECT data_sr.RespondentId, "attribute_label" as attribute_label, data_sr.'.$yqid.' 
+                            FROM data_sr_'.$project_code.' AS data_sr 
+                            WHERE data_sr.'.$zqid.'="'.$fltr_value.'")myData');
         
                 $table_pct=$this->get_pct_table_1x1x0($table_base,$table_count);
 
@@ -372,29 +392,45 @@ class CrossTableController extends Controller
                 
 
             }else if($xqtype[0]->qtype == 2 && $yqtype[0]->qtype==2){
-                $sumquery = ' SELECT attribute_label as Label, count(DISTINCT RespondentId  ) as total, ';
-            
+                $sum_query = ' SELECT attribute_label as Label, count(DISTINCT RespondentId  ) as total, ';
+        
                 foreach($yattrib  as $y ){
-                    $sumquery =  $sumquery.' SUM(CASE WHEN response='.$y->attribute_value.' THEN 1 ELSE 0 END ) AS '.$y->qid.$y->attribute_value.',';
+                    $sum_query =  $sum_query.' SUM(CASE WHEN response='.$y->attribute_value.' THEN 1 ELSE 0 END ) AS '.$y->qid.$y->attribute_value.',';
                 }
                 
-                $sumquery=Str::substr($sumquery,0,Str::length($sumquery)-1);
-                $sumquery = DB::select($sumquery.' 
+                $my_query=$my_query.$sum_query;
+                $my_query=Str::substr($my_query,0,Str::length($my_query)-1);
+                $table_count = DB::select($my_query.' 
                     FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
                             FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
                             INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
                             INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
-                            WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.') myData 
+                            WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.' AND data_sr.'.$zqid.'="'.$fltr_value.'") myData 
                         GROUP BY xresponse' );
                         // UNION SELECT "Total", '.$sumquery.' 
                         // FROM ( SELECT data_sr.'.$xqid.', att.attribute_label, data_sr.'.$yqid.' 
                         //         FROM data_sr_'.$project_code.' AS data_sr INNER JOIN attributes AS att ON data_sr.'.$xqid.'=att.attribute_value 
                         //         WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.')myData ');
                 
-                $attr_label = DB::select('SELECT attribute_label, attribute_value FROM attributes WHERE attributes.qid = "'.$yqid.'" AND project_code='.$project_code);
+                // $attr_label = DB::select('SELECT attribute_label, attribute_value FROM attributes WHERE attributes.qid = "'.$yqid.'" AND project_code='.$project_code);
+
+                $table_base = DB::select($my_query.' 
+                    FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
+                            FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
+                            INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
+                            INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
+                            WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.' AND data_sr.'.$zqid.'="'.$fltr_value.'") myData');
+            
+                $table_pct=$this->get_pct_table_1x1x0($table_base,$table_count);
+                
+                $all_table=array();
+
+                array_push($all_table,$table_base);
+                array_push($all_table,$table_count);
+                array_push($all_table,$table_pct);
 
                 // dd( $sumquery);
-                return [$sumquery, $attr_label, $xaxis, $yaxis, $zaxis];
+                return $all_table;
                 
 
             }
@@ -450,14 +486,20 @@ class CrossTableController extends Controller
                             WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.' AND '.$zqid.'.response="'.$fltr_value.'") myData 
                         GROUP BY response' );
                 
-                $table_base = DB::select($my_query.' 
-                    FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response, att.attribute_label, data_sr.'.$yqid.'
-                        FROM `data_sr_'.$project_code.'` as data_sr 
-                        INNER JOIN '.$xqid.'_'.$project_code.' as '.$xqid.' ON data_sr.RespondentId='.$xqid.'.RespondentId
-                        INNER JOIN '.$zqid.'_'.$project_code.' as '.$zqid.' ON data_sr.RespondentId='.$zqid.'.RespondentId
-                        INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
-                        WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.' AND '.$zqid.'.response="'.$fltr_value.'") myData');
+                // $table_base = DB::select($my_query.' 
+                //     FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response, att.attribute_label, data_sr.'.$yqid.'
+                //         FROM `data_sr_'.$project_code.'` as data_sr 
+                //         INNER JOIN '.$xqid.'_'.$project_code.' as '.$xqid.' ON data_sr.RespondentId='.$xqid.'.RespondentId
+                //         INNER JOIN '.$zqid.'_'.$project_code.' as '.$zqid.' ON data_sr.RespondentId='.$zqid.'.RespondentId
+                //         INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
+                //         WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.' AND '.$zqid.'.response="'.$fltr_value.'") myData');
         
+                $table_base = DB::select($my_query.' 
+                    FROM ( SELECT data_sr.RespondentId, "attribute_label" as attribute_label, data_sr.'.$yqid.' 
+                            FROM data_sr_'.$project_code.' AS data_sr 
+                            INNER JOIN '.$zqid.'_'.$project_code.' as '.$zqid.' ON data_sr.RespondentId='.$zqid.'.RespondentId
+                            WHERE '.$zqid.'.response="'.$fltr_value.'")myData');
+
                 $table_pct=$this->get_pct_table_1x1x0($table_base,$table_count);
 
                 $all_table=array();
@@ -504,29 +546,45 @@ class CrossTableController extends Controller
                 
 
             }else if($xqtype[0]->qtype == 2 && $yqtype[0]->qtype==2){
-                $sumquery = ' SELECT attribute_label as Label, count(DISTINCT RespondentId  ) as total, ';
+                $sum_query = ' SELECT attribute_label as Label, count(DISTINCT RespondentId  ) as total, ';
+        
+            foreach($yattrib  as $y ){
+                $sum_query =  $sum_query.' SUM(CASE WHEN response='.$y->attribute_value.' THEN 1 ELSE 0 END ) AS '.$y->qid.$y->attribute_value.',';
+            }
             
-                foreach($yattrib  as $y ){
-                    $sumquery =  $sumquery.' SUM(CASE WHEN response='.$y->attribute_value.' THEN 1 ELSE 0 END ) AS '.$y->qid.$y->attribute_value.',';
-                }
-                
-                $sumquery=Str::substr($sumquery,0,Str::length($sumquery)-1);
-                $sumquery = DB::select($sumquery.' 
-                    FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
-                            FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
-                            INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
-                            INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
-                            WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.') myData 
-                        GROUP BY xresponse' );
-                        // UNION SELECT "Total", '.$sumquery.' 
-                        // FROM ( SELECT data_sr.'.$xqid.', att.attribute_label, data_sr.'.$yqid.' 
-                        //         FROM data_sr_'.$project_code.' AS data_sr INNER JOIN attributes AS att ON data_sr.'.$xqid.'=att.attribute_value 
-                        //         WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.')myData ');
-                
-                $attr_label = DB::select('SELECT attribute_label, attribute_value FROM attributes WHERE attributes.qid = "'.$yqid.'" AND project_code='.$project_code);
+            $my_query=$my_query.$sum_query;
+            $my_query=Str::substr($my_query,0,Str::length($my_query)-1);
+            $table_count = DB::select($my_query.' 
+                FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
+                        FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
+                        INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
+                        INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
+                        WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.') myData 
+                    GROUP BY xresponse' );
+                    // UNION SELECT "Total", '.$sumquery.' 
+                    // FROM ( SELECT data_sr.'.$xqid.', att.attribute_label, data_sr.'.$yqid.' 
+                    //         FROM data_sr_'.$project_code.' AS data_sr INNER JOIN attributes AS att ON data_sr.'.$xqid.'=att.attribute_value 
+                    //         WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.')myData ');
+            
+            // $attr_label = DB::select('SELECT attribute_label, attribute_value FROM attributes WHERE attributes.qid = "'.$yqid.'" AND project_code='.$project_code);
 
-                // dd( $sumquery);
-                return [$sumquery, $attr_label, $xaxis, $yaxis, $zaxis];
+            $table_base = DB::select($my_query.' 
+            FROM ( SELECT '.$xqid.'.RespondentId, '.$xqid.'.response as xresponse, att.attribute_label, '.$yqid.'.response
+                    FROM '.$xqid.'_'.$project_code.' as '.$xqid.'
+                    INNER JOIN '.$yqid.'_'.$project_code.' as '.$yqid.' ON '.$xqid.'.RespondentId='.$yqid.'.RespondentId
+                    INNER JOIN attributes_'.$project_code.' AS att ON '.$xqid.'.response=att.attribute_value 
+                    WHERE att.qid="'.$xqid.'" AND att.project_code='.$project_code.') myData');
+        
+            $table_pct=$this->get_pct_table_1x1x0($table_base,$table_count);
+            
+            $all_table=array();
+
+            array_push($all_table,$table_base);
+            array_push($all_table,$table_count);
+            array_push($all_table,$table_pct);
+
+            // dd( $sumquery);
+            return $all_table;
                 
 
             }
