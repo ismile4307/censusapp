@@ -62,6 +62,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <!-- <jw-pagination :items="all_filter_data" @changePage="onChangePage"></jw-pagination> -->
+                                    <!-- <pagination :data="laravelData" @pagination-change-page="getData"></pagination> -->
+
                                 </div>
                                 <div class="text-center" v-else><label class="col-form-label col-form-label-sm">No Record Found</label></div>
                             
@@ -157,7 +160,10 @@
 </template>
 
 <script>
+// import JwPagination from 'jw-vue-pagination';
+// const exampleItems = [...Array(150).keys()].map(i => ({ id: (i+1), name: 'Item ' + (i+1) }));
     export default {
+        // components:{JwPagination},
         data(){
             return {
             all_parameters:[],
@@ -168,6 +174,7 @@
             all_filter_data:[],
             all_fields:[],
 
+            selected_control:[],
             selected_filter_parameter:[],
             db_filter_parameter:[],
 
@@ -180,6 +187,10 @@
                 all_filter_qids:[],
                 selected_filter_values:[],
             },
+
+            pageOfItems: [],
+            laravelData:{},
+            project:'',
 
             }
         },
@@ -206,6 +217,11 @@
             //          .catch(function (error) {this.errors = error});
 
             // },
+
+            onChangePage(pageOfItems) { 
+                // update page of items
+                this.pageOfItems = pageOfItems;
+            },
 
             getFilterQuestion(){
                 this.filter_parameter.selected_parameter=[];
@@ -235,11 +251,19 @@
                 newData.project_id=this.project_id;
                 // console.log(newData);
                 axios.post('/data_analysis/'+this.project_id+'/search_operation/save_filter_parameter', newData)
-                    .then(function (resp) {
-                        //app.$router.push({path: '/'});
-                        // console.log(resp);
-                        
-                        // alert(resp.data.success);
+                    .then(response => {this.all_filters = response.data;
+                        // console.log(this.all_filters[0]);
+                        this.all_filter_qids=this.all_filters[0];
+                        this.all_filter_attributes=this.all_filters[1];
+                        this.all_filter_qtexts=this.all_filters[2];
+                        // console.log(this.all_filters);
+
+                        var i=0;
+                        this.all_filter_qids.forEach(element=>{
+                            this.selected_filter_parameter[i]=0;
+                            i++;
+                        });
+                        this.$nextTick(function(){ $('.selectpicker').selectpicker('refresh'); });
                     })
                     .catch(function (resp) {
                         // console.log(resp);
@@ -248,7 +272,7 @@
 
                 $('#filterParameterModal').modal('hide');
 
-                this.loadFilter();
+                // this.loadFilter();
 
 
             },
@@ -261,6 +285,7 @@
                         this.all_filter_qids=this.all_filters[0];
                         this.all_filter_attributes=this.all_filters[1];
                         this.all_filter_qtexts=this.all_filters[2];
+                        this.project=this.all_filters[3];
                         // console.log(this.all_filters);
 
                         var i=0;
@@ -287,6 +312,7 @@
                 this.all_filter_data=[];
                 axios.post('/data_analysis/'+this.project_id+'/search_operation/get_filter_data', newData)
                      .then(response => {this.all_filter_data = response.data[0];
+                        // this.laravelData = response.data[0];
                         this.all_fields=response.data[1];
                         // console.log(this.all_filter_data);
                 })
@@ -316,7 +342,7 @@
                         );
                 
                         // Tell the browser to download, not render, the file.
-                        link.setAttribute('download', 'search_report.xlsx');
+                        link.setAttribute('download', this.project.project_name+'_search_report.xlsx');
                 
                         // Place the link in the DOM.
                         document.body.appendChild(link);

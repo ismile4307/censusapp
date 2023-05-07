@@ -258,7 +258,7 @@
               </li>
             @endif
 
-            @if($activity->A21==1 || $activity->A22==1 || $activity->A23==1)
+            @if($activity->A21==1 || $activity->A22==1 || $activity->A23==1 || $activity->A24==1)
               <li class="nav-item" id="settings-list">
                 <a href="#" class="nav-link" id="settings-link">
                   <i class="nav-icon fas fa-copy"></i>
@@ -292,14 +292,14 @@
                       </a>
                     </li>
                   @endif
-                  {{-- @if($activity->A24==1)
+                  @if($activity->A24==1)
                     <li class="nav-item">
-                      <a href="pages/layout/boxed.html" class="nav-link">
+                      <a href="{{url('/settings/' . $project->id . '/project_users/index')}}" class="nav-link" id="project-users-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Project Duration</p>
+                        <p>Project User</p>
                       </a>
                     </li>
-                  @endif --}}
+                  @endif
                 </ul>
               </li>
             @endif

@@ -15,16 +15,24 @@
                         @endif
 
                         <div class="row col d-flex justify-content-center">
-                            <div class="col-sm-3 mb-3 mb-sm-0">
-                                <div class="card text-center text-bg-primary">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Fortify 2</h4>
-                                        <p class="card-text">Survey Type</p>
+                            @if($projects!=null)
+                                @foreach($projects as $project)
+                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                        <div class="card text-center text-bg-{{$project->class_name}}">
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{$project->project_name}}</h4>
+                                                <p class="card-text">{{$project->project_type}}</p>
+                                            </div>
+                                            <div class="card-footer bg-transparent"><a href="{{'/project/'.$project->id.'/info'}}" class="btn btn-sm btn-{{$project->class_name}}">More Info-></a></div>
+                                        </div>
                                     </div>
-                                    <div class="card-footer bg-transparent"><a href="{{'/project/1/info'}}" class="btn btn-sm btn-primary">More Info</a></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 mb-3 mb-sm-0">
+                                @endforeach
+                            @else
+                                <h5 class="text-center">No assigned project is found !!!</h5>
+                            @endif
+
+
+                            {{-- <div class="col-sm-3 mb-3 mb-sm-0">
                                 <div class="card text-center text-bg-warning">
                                     <div class="card-body">
                                         <h4 class="card-title">Teaf</h4>
@@ -41,7 +49,7 @@
                                     </div>
                                     <div class="card-footer bg-transparent"><a href="{{'/project/3/info'}}" class="btn btn-sm btn-success">More Info</a></div>
                                 </div>
-                            </div>
+                            </div> --}}
                             
                         </div>
                     </div>

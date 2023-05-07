@@ -17,6 +17,11 @@ use DateTime;
 
 class SurveyDataController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index($id)
     {
         $project=Project::find($id);
@@ -27,6 +32,7 @@ class SurveyDataController extends Controller
 
     public function get_filter_parameter($id)
     {
+        $project=Project::find($id);
         $db_results=DB::select('SELECT qid, question_text FROM survey_filters WHERE project_id='.$id);
 
         $filter_qids=array();
@@ -46,6 +52,7 @@ class SurveyDataController extends Controller
         array_push($filter_parameters,$filter_qids);
         array_push($filter_parameters,$filter_attributes);
         array_push($filter_parameters,$filter_qtexts);
+        array_push($filter_parameters,$project);
         // dd($filter_parameters);
         return $filter_parameters;
     }
@@ -62,6 +69,12 @@ class SurveyDataController extends Controller
 
     public function get_survey_data(Request $request, $id)
     {
+        $my_query=$this->get_survey_data_query($request,$id);
+        $db_results=DB::select($my_query);
+        return $db_results;
+    }
+
+    private function get_survey_data_query($request, $id){
         $project=Project::find($id);
         $project_code=$project->project_code;
 
@@ -75,25 +88,25 @@ class SurveyDataController extends Controller
             $where=' AND '.$where;
         $contact_type=$request->input('contactType');
     
-        $db_results=[];
+        $my_query=[];
         if($contact_type==2){
-            $db_results=DB::select('SELECT d1.id, 
-            CONVERT(d1.RespondentId,CHAR) as RespondentId, 
+            $my_query='SELECT d1.id, 
+            CONCAT(" ", d1.RespondentId) as RespondentId, 
             d1.RespName,	
             d1.RespMobile, 
             sl.survey_link FROM data_sr_'.$project_code.' as d1 
             INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
-            WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where);
+            WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
         }else{
-            $db_results=DB::select('SELECT d1.id, 
-            CONVERT(d1.RespondentId,CHAR) as RespondentId, 
+            $my_query='SELECT d1.id, 
+            CONCAT(" ", d1.RespondentId) as RespondentId, 
             d1.RespName,	
             d1.RespMobile, 
             sl.survey_link FROM data_sr_'.$project_code.' as d1 
             INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
-            WHERE sl.status='.$contact_type.$where);
+            WHERE sl.status='.$contact_type.$where;
         }
-        return $db_results;
+        return $my_query;
     }
 
     public function update_data_status(Request $request, $id)
@@ -186,8 +199,9 @@ class SurveyDataController extends Controller
                     SUM(CASE WHEN sl.status=4 THEN 1 ELSE 0 END) as "RingingnotReceived",
                     SUM(CASE WHEN sl.status=5 THEN 1 ELSE 0 END) as "SwitchedOff",
                     SUM(CASE WHEN sl.status=6 THEN 1 ELSE 0 END) as "InvalidNumber"
-                FROM survey_links_23002 AS sl
-                INNER join users on sl.interviewed_by=users.id Where sl.interviewed_by>0
+                FROM survey_links_'.$project_code.' AS sl
+                INNER join users on sl.interviewed_by=users.id 
+                WHERE sl.interviewed_by>0 AND sl.interview_date BETWEEN "'.$start_date.'" AND "'.$end_date.'" 
                 GROUP BY users.name');
         
         return $db_results;
@@ -195,40 +209,9 @@ class SurveyDataController extends Controller
 
     public function export_survey_data(Request $request, $id)
     {
-        $project=Project::find($id);
-        $project_code=$project->project_code;
+        $my_query=$this->get_survey_data_query($request,$id);
 
-
-        $filter_qids=$request->input('all_filter_qids');
-        $filter_values=$request->input('selected_filter_values');
-
-        $where=$this->get_where_syntax($filter_qids,$filter_values);
-
-        if($where!="")
-            $where=' AND '.$where;
-        $contact_type=$request->input('contactType');
-    
-        $myQuery='';
-        if($contact_type==2){
-            $myQuery='SELECT d1.id,  
-            CONCAT(" ",d1.RespondentId) as RespondentId, 
-            d1.RespName,	
-            d1.RespMobile, 
-            sl.survey_link FROM data_sr_'.$project_code.' as d1 
-            INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
-            WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
-        }else{
-            $myQuery='SELECT d1.id,  
-            CONCAT(" ",d1.RespondentId) as RespondentId, 
-            d1.RespName,	
-            d1.RespMobile, 
-            sl.survey_link FROM data_sr_'.$project_code.' as d1 
-            INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
-            WHERE sl.status='.$contact_type.$where;
-        }
-        //return $db_results;
-
-        return Excel::download(new SurveyDataExport($myQuery), $project->project_name.'_Search_Result.xlsx');
+        return Excel::download(new SurveyDataExport($my_query), 'Search_Result.xlsx');
 
     }
 }

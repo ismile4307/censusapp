@@ -16,6 +16,15 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
+// // register jw pagination component globally
+// import JwPagination from 'jw-vue-pagination';
+// app.component('jw-pagination', JwPagination);
+
+// import VuePagination from 'laravel-vue-pagination';
+// app.component('pagination', VuePagination);
+
+// Vue.component('pagination', require('laravel-vue-pagination'));
+
 // import ExampleComponent from './components/ExampleComponent.vue';
 
 import SurveyDataComponent from './components/data_analysis/SurveyDataComponent.vue';
@@ -50,6 +59,8 @@ import UserRoleComponent from './components/admin/UserRoleComponent.vue';
 app.component('user_role-component', UserRoleComponent);
 import SupportInfoComponent from './components/settings/SupportInfoComponent.vue';
 app.component('support_info-component', SupportInfoComponent);
+import ProjectUsersComponent from './components/settings/ProjectUsersComponent.vue';
+app.component('project_users-component', ProjectUsersComponent);
 
 import FirstComponent from './components/dashboard/FirstComponent.vue';
 import SecondComponent from './components/dashboard/SecondComponent.vue';
@@ -63,8 +74,6 @@ app.component('second-component', SecondComponent);
 app.component('third-component', ThirdComponent);
 app.component('forth-component', ForthComponent);
 app.component('fifth-component', FifthComponent);
-
-
 
 
 

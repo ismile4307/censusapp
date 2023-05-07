@@ -6,6 +6,7 @@ use App\Classes\MyClass;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\FilterParameter;
+use Illuminate\Pagination\Paginator;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SearchExport;
@@ -16,6 +17,11 @@ use Str;
 
 class SearchOperationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index($id)
     {
         $project=Project::find($id);
@@ -60,7 +66,10 @@ class SearchOperationController extends Controller
             $filter_parameter->save();
         }
 
-        return response()->json(['success'=>'Data inserted successfully']);
+        $filter_parameters=$this->get_filter_parameter($id);
+        // dd($filter_parameters);
+        // return response()->json(['success'=>'Data inserted successfully']);
+        return $filter_parameters;
     }
 
     private function get_qtext($project_code,$qid)
@@ -71,6 +80,7 @@ class SearchOperationController extends Controller
 
     public function get_filter_parameter($id)
     {
+        $project=Project::find($id);
         $db_results=DB::select('SELECT qid, question_text FROM filter_parameters WHERE project_id='.$id.' AND user_id='.Auth::User()->id);
 
         $filter_qids=array();
@@ -86,6 +96,7 @@ class SearchOperationController extends Controller
         array_push($filter_parameters,$filter_qids);
         array_push($filter_parameters,$filter_attributes);
         array_push($filter_parameters,$filter_qtexts);
+        array_push($filter_parameters,$project);
         // dd($filter_parameters);
         return $filter_parameters;
     }
@@ -127,16 +138,16 @@ class SearchOperationController extends Controller
             }
 
         }
-
         
 
         $final_query='SELECT '.Str::substr($field_query,0,Str::length($field_query)-2).' FROM data_sr_'.$project_code.' as d1 '.$join_query;
         // dd($final_query);
         if($where!="")
-            $db_results=DB::select($final_query.' WHERE '.$where.''); 
+            // $db_results=Paginate::make(DB::select($final_query.' WHERE '.$where.''), 10);
+            $db_results=DB::select($final_query.' WHERE '.$where.'');
         else
-            $db_results=DB::select($final_query); 
-        //dd($db_results);
+            $db_results=DB::select($final_query);
+        // dd($db_results);
 
         $my_data=array();
         array_push($my_data,$db_results);
@@ -199,6 +210,7 @@ class SearchOperationController extends Controller
     {
         $where="";
         $i=0;
+        // dd($filter_values);
         foreach($filter_qids as $qid){
             if($filter_values[$i]!=0){
                 if(count($filter_values[$i])>0){

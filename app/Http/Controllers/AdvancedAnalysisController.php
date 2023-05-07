@@ -8,6 +8,11 @@ use App\Models\Project;
 
 class AdvancedAnalysisController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index($id)
     {
         $project=Project::find($id);

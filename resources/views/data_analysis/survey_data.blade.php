@@ -81,13 +81,13 @@ function activeMenu() {
 //   $('#data-analysis-list').addClass( 'menu-open' );
 // } );
 
-$("body").delegate(".date", "focusin", function () {
+// $("body").delegate(".date", "focusin", function () {
             
-            $(this).datepicker({  
-           format: 'dd-mm-yyyy',
-           autoclose:true
-         });
-        });
+//             $(this).datepicker({  
+//            format: 'dd-mm-yyyy',
+//            autoclose:true
+//          });
+//         });
 </script>
 
 

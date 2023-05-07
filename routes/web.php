@@ -14,11 +14,13 @@ use App\Http\Controllers\SurveyFiltersController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserTypeController;
-use App\Http\Controllers\SupportInfoController;
 
 //Settings
 use App\Http\Controllers\FilterParametersController;
 use App\Http\Controllers\ShowingVariablesController;
+use App\Http\Controllers\SupportInfoController;
+use App\Http\Controllers\Settings\ProjectUsersController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,5 +137,13 @@ Route::post('/admin/{user_id}/user_role/save_user_role', [UserRoleController::cl
 
 Route::get('/settings/{id}/index', [SupportInfoController::class, 'index']);
 Route::get('/settings/{id}/get_support_info', [SupportInfoController::class, 'get_support_info'])->name('get_support_info');
+
+//***************** Project Users */
+Route::get('/settings/{id}/project_users/index', [ProjectUsersController::class, 'index']);
+Route::get('/settings/{id}/project_users/get_project_info', [ProjectUsersController::class,'get_project_info'])->name('get_project_info');
+Route::get('/settings/{id}/project_users/get_project_user_info', [ProjectUsersController::class,'get_project_user_info'])->name('get_project_user_info');
+Route::get('/settings/{id}/project_users/get_users', [ProjectUsersController::class,'get_users'])->name('get_users');
+Route::post('/settings/project_users/assign_users', [ProjectUsersController::class,'assign_users'])->name('assign_users');
+Route::get('/settings/{id}/project_users/delete_project_user', [ProjectUsersController::class,'delete_project_user'])->name('delete_project_user');
 
 ?>

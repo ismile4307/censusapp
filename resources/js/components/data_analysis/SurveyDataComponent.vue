@@ -142,14 +142,18 @@
                     <div class="mb-4 mt-1 pl-2 row justify-content-left" id="duration">
                         <label class="col-md-1 col-form-label col-form-label-sm text-end">Start Date :</label>
                         <div class="col-md-2">
-                            <input name="start_date" type="text" class="date form-control form-control-sm"  autocomplete="off">
+                            <input name="start_date" type="date" class="date form-control form-control-sm" v-model="start_date"  autocomplete="off">
+                            <!-- <input name="start_date" type="text" class="date form-control form-control-sm"  autocomplete="off"> -->
+                            <!-- <datepicker :format="customFormatterDate" input-class ="form-control form-control-sm" v-bind:key="1" name="start_date" v-model="end_date"></datepicker> -->
                         </div> 
                         <label class="col-md-1 col-form-label col-form-label-sm text-end">End Date :</label>
                         <div class="col-md-2">
-                            <input name="end_date" type="text" class="date form-control form-control-sm" autocomplete="off">
+                            <input name="end_date" type="date" class="date form-control form-control-sm" v-model="end_date" autocomplete="off">
+                            <!-- <input name="end_date" type="text" class="date form-control form-control-sm" autocomplete="off"> -->
+                            <!-- <datepicker :format="customFormatterDate" input-class ="form-control form-control-sm" v-bind:key="2" name="end_date" v-model="end_date"></datepicker> -->
                         </div> 
                         <div class="col-md-1">
-                            <button type="button" class="btn btn-outline-primary btn-sm ml-3">Show</button> 
+                            <button type="button" class="btn btn-outline-primary btn-sm ml-3" v-on:click="getCatiReportInterval">Show</button> 
                         </div>
                     </div>   
                    
@@ -177,6 +181,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div v-else class="text-center">
+                        <h6 style="color: brown;">No record found for current date</h6>
+                    </div>
 
                 </div>
                 <div class="modal-footer p-1">
@@ -191,7 +198,12 @@
 </template>
 
 <script>
+// import Datepicker from 'vuejs-datepicker';
+// import VueTimepicker from 'vuejs-timepicker';
+// import moment from 'moment';
     export default {
+        // components: { Datepicker },
+        
         data(){
             return {
             all_data:[],
@@ -221,6 +233,7 @@
                 selected_filter_values:[],
             },
 
+            project:'',
             survey_link:'',
             resp_name:'',
             resp_mobile:'',
@@ -228,6 +241,8 @@
             btn_label:'',
             respondent_id:'',
             report_data:[],
+            start_date:'',
+            end_date:'',
 
             }
         },
@@ -236,7 +251,7 @@
 
         mounted() {
             this.loadFilter();
-            // console.log('Component mounted.')
+            //console.log(this.project_name);
         },
 
         methods:{
@@ -249,6 +264,7 @@
                         this.all_filter_qids=this.all_filters[0];
                         this.all_filter_attributes=this.all_filters[1];
                         this.all_filter_qtexts=this.all_filters[2];
+                        this.project=this.all_filters[3];
                         // console.log(this.all_filters);
 
                         var i=0;
@@ -350,27 +366,44 @@
             },
 
             getCatiReport(){
+
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+
+                // today = mm + '/' + dd + '/' + yyyy;
+                today = yyyy + '-' + mm + '-' + dd;
+
+                // console.log(today);
+                this.start_date=today;
+                this.end_date=today;
+
                 axios.post('/data_analysis/'+this.project_id+'/survey_data/cati_report',
-                    {'start_date': '30/04/2023',
-                     'end_date': '30/04/2023',})
+                    {'start_date': this.start_date+' 00:00:00',
+                     'end_date': this.end_date+' 23:59:59',})
                         .then(response => {
                             this.report_data = response.data;
 
                     })
                         .catch(function (error) {this.errors = error});
-
-        //                 $("body").delegate(".date", "focusin", function () {
-            
-        //     $(this).datepicker({  
-        //    format: 'dd-mm-yyyy',
-        //    autoclose:true,
-        //  });
-        // }); 
-
+                
                         
                 $('#reportModal').modal('show');
 
             },
+
+            getCatiReportInterval(){
+
+                axios.post('/data_analysis/'+this.project_id+'/survey_data/cati_report',
+                    {'start_date': this.start_date+' 00:00:00',
+                    'end_date': this.end_date+' 23:59:59',})
+                        .then(response => {
+                            this.report_data = response.data;
+
+                    })
+                        .catch(function (error) {this.errors = error});
+                },
 
             exportToExcel(){
                 if(this.selected_contact_type>0){
@@ -390,7 +423,7 @@
                         );
                 
                         // Tell the browser to download, not render, the file.
-                        link.setAttribute('download', 'survey_data.xlsx');
+                        link.setAttribute('download', this.project.project_name+'_survey_data.xlsx');
                 
                         // Place the link in the DOM.
                         document.body.appendChild(link);
@@ -406,7 +439,11 @@
                 }
             },
 
+            // customFormatterDate(date) {
+            //     return moment(date).format('DD/MM/YYYY');
+            // },
         },
+        
     }
    
 </script>

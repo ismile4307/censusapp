@@ -17,6 +17,10 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
-        "bootstrap-select": "^1.13.18"
+        "bootstrap-select": "^1.13.18",
+        "jw-vue-pagination": "^1.0.3",
+        "laravel-vue-pagination": "^4.1.0",
+        "moment": "^2.29.4",
+        "vuejs-datepicker": "^1.6.2"
     }
 }
