@@ -20,6 +20,7 @@ use App\Http\Controllers\FilterParametersController;
 use App\Http\Controllers\ShowingVariablesController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Controllers\Settings\ProjectUsersController;
+use App\Http\Controllers\RespondentpanelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,5 +153,21 @@ Route::get('/settings/{id}/project_users/get_project_user_info', [ProjectUsersCo
 Route::get('/settings/{id}/project_users/get_users', [ProjectUsersController::class,'get_users'])->name('get_users');
 Route::post('/settings/project_users/assign_users', [ProjectUsersController::class,'assign_users'])->name('assign_users');
 Route::get('/settings/{id}/project_users/delete_project_user', [ProjectUsersController::class,'delete_project_user'])->name('delete_project_user');
+
+//*****************************Respondent Panel selection*/
+Route::get('/resp_panel/{id}/panel_selection',[RespondentpanelController::class, 'index'])->name('panelindex');
+Route::get('/resp_panel/search_operation/get_all_parameter',[RespondentpanelController::class, 'get_all_parameter']);
+Route::post('/resp_panel/save_filter_data/save_data',[RespondentpanelController::class, 'save_data']);
+Route::get('/resp_panel/resp_dropdown/resp_data',[RespondentpanelController::class, 'dropdown_data']);
+Route::post('/resp_panel/filter_parameter/get_data',[RespondentpanelController::class, 'get_data']);
+Route::get('/resp_panel/report_column/table_column',[RespondentpanelController::class, 'table_column']);
+Route::post('/resp_panel/export_excel/excel_data',[RespondentpanelController::class, 'excel_data']);
+//*****************************Respondent Panel setting*/
+Route::get('/resp_panel/{id}/panel_setting',[RespondentpanelController::class, 'index_setting'])->name('panel_setting');
+Route::get('/resp_panel/set_column/all_column',[RespondentpanelController::class, 'get_column']);
+Route::post('/resp_panel/set_column/save_column',[RespondentpanelController::class, 'save_column']);
+Route::get('/resp_panel/set_column/tableshow_column',[RespondentpanelController::class, 'tableshow_column']);
+Route::post('/resp_panel/{id}/remove_column',[RespondentpanelController::class, 'remove_column']);
+
 
 ?>

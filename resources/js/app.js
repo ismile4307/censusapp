@@ -76,6 +76,13 @@ app.component('forth-component', ForthComponent);
 app.component('fifth-component', FifthComponent);
 
 
+//Respondent Panel Component link
+import RespondentPanelComponen from './components/resp_panel/RespondentPanelComponent.vue';
+import RespPanelColumnComponent from './components/resp_panel/RespPanelColumnComponent.vue';
+app.component('respondentpanel-component', RespondentPanelComponen);
+app.component('respcolumn-component', RespPanelColumnComponent);
+
+
 
 /**
  * The following block of code may be used to automatically register your

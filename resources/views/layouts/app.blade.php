@@ -259,6 +259,51 @@
               </li>
             @endif
 
+            @if ($activity->A31==1 || $activity->A32==1)
+              <li class="nav-item" id="resp_panel_list">
+                <a href="#" class="nav-link" id="resp_panel_link">
+                  <i class="nav-icon fas fa-chart-pie"></i>
+                  <p>
+                    Respondents Panel
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  @if ($activity->A31==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/resp_panel/'.$project->id.'/panel_selection') }}" class="nav-link" id="panel_selection_link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Panel Selection</p>
+                      </a>
+                    </li>
+                  @endif
+                  @if ($activity->A32==1)
+                    <li class="nav-item">
+                      <a href="{{ url('/resp_panel/'.$project->id.'/panel_setting') }}" class="nav-link" id="panel_setting_link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Panel Setting</p>
+                      </a>
+                    </li>
+                  @endif
+                </ul>
+              </li>
+            @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             @if($activity->A21==1 || $activity->A22==1 || $activity->A23==1 || $activity->A24==1)
               <li class="nav-item" id="settings-list">
                 <a href="#" class="nav-link" id="settings-link">
