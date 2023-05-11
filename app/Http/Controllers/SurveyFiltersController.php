@@ -71,7 +71,7 @@ class SurveyFiltersController extends Controller
 
     private function get_qtext($project_code,$qid)
     {
-        $qtext=DB::select('SELECT question_text FROM questions_'.$project_code.' WHERE project_code='.$project_code.' AND qid="'.$qid.'"');
+        $qtext=DB::select('SELECT question_text FROM questions_'.$project_code.' WHERE qid="'.$qid.'"');
         return $qtext[0]->question_text;
     }
 

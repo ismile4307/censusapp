@@ -62,7 +62,7 @@ class SurveyDataController extends Controller
         $project=Project::find($id);
         $project_code=$project->project_code;
 
-        $db_results=DB::select('SELECT attribute_value, attribute_label FROM attributes_'.$project_code.' WHERE project_code='.$project_code.' AND qid="'.$qid.'" ORDER BY attribute_order');
+        $db_results=DB::select('SELECT attribute_value, attribute_label FROM attributes_'.$project_code.' WHERE qid="'.$qid.'" ORDER BY attribute_order');
         return $db_results;
 
     }
@@ -71,7 +71,11 @@ class SurveyDataController extends Controller
     {
         $my_query=$this->get_survey_data_query($request,$id);
         $db_results=DB::select($my_query);
-        return $db_results;
+
+        $my_count_query=$this->get_survey_data_count_query($request,$id);
+        $db_count_results=DB::select($my_count_query);
+        // dd($db_count_results);
+        return [$db_results,$db_count_results];
     }
 
     private function get_survey_data_query($request, $id){
@@ -89,26 +93,100 @@ class SurveyDataController extends Controller
         $contact_type=$request->input('contactType');
     
         $my_query=[];
-        if($contact_type==2){
-            $my_query='SELECT d1.id, 
-            CONCAT(" ", d1.RespondentId) as RespondentId, 
-            d1.RespName,	
-            d1.RespMobile, 
-            sl.survey_link FROM data_sr_'.$project_code.' as d1 
-            INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
-            WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
-        }else{
-            $my_query='SELECT d1.id, 
-            CONCAT(" ", d1.RespondentId) as RespondentId, 
-            d1.RespName,	
-            d1.RespMobile, 
-            sl.survey_link FROM data_sr_'.$project_code.' as d1 
-            INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
-            WHERE sl.status='.$contact_type.$where;
+        if($project_code=="23903"){
+            if($contact_type==2){
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                a1.attribute_label as PanelBrand, 
+                d1.MtoPoint, 
+                sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where.' ORDER BY RAND() LIMIT 50';
+            }else{
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                a1.attribute_label as PanelBrand, 
+                d1.MtoPoint, 
+                sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                WHERE sl.status='.$contact_type.$where.' ORDER BY RAND() LIMIT 50';
+            }
+        }elseif($project_code=="23902"){
+            if($contact_type==2){
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                d1.ShopName, 
+                d1.MtoPoint, 
+                sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where.' ORDER BY RAND() LIMIT 50';
+            }else{
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                d1.ShopName, 
+                d1.MtoPoint, 
+                sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status='.$contact_type.$where.' ORDER BY RAND() LIMIT 50';
+            }
         }
         return $my_query;
     }
 
+    private function get_survey_data_count_query($request, $id){
+        $project=Project::find($id);
+        $project_code=$project->project_code;
+
+
+        $filter_qids=$request->input('all_filter_qids');
+        $filter_values=$request->input('selected_filter_values');
+
+        $where=$this->get_where_syntax($filter_qids,$filter_values);
+
+        if($where!="")
+            $where=' AND '.$where;
+        $contact_type=$request->input('contactType');
+    
+        $my_query=[];
+        if($project_code=="23903"){
+            if($contact_type==2){
+                $my_query='SELECT count(d1.id) as Total
+                FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
+            }else{
+                $my_query='SELECT count(d1.id) as Total
+                FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                WHERE sl.status='.$contact_type.$where;
+            }
+        }elseif($project_code=="23902"){
+            if($contact_type==2){
+                $my_query='SELECT Count(d1.id) AS Total
+                FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
+            }else{
+                $my_query='SELECT Count(d1.id) AS Total
+                FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status='.$contact_type.$where;
+            }
+        }
+        return $my_query;
+    }
     public function update_data_status(Request $request, $id)
     {
         $project=Project::find($id);
@@ -131,10 +209,22 @@ class SurveyDataController extends Controller
 
         DB::update('UPDATE `survey_links_'.$project_code.'` SET `interviewed_by`='.Auth::user()->id.',`interview_date`="'.$myDateTime.'",`status`=9 WHERE `survey_link`="'.$survey_link.'"');
 
-        $db_results=$this->get_survey_data($request, $id);
+        // $db_results=$this->get_survey_data($request, $id);
+
+
+        $my_query=$this->get_survey_data_query($request,$id);
+        $db_results=DB::select($my_query);
+
+        $my_count_query=$this->get_survey_data_count_query($request,$id);
+        $db_count_results=DB::select($my_count_query);
+        // dd($db_count_results);
+        // return [$db_results,$db_count_results];
+
 
         array_push($return_value,"2");
         array_push($return_value,$db_results);
+        array_push($return_value,$db_count_results);
+        
         return $return_value;
     }
 
@@ -155,6 +245,24 @@ class SurveyDataController extends Controller
         DB::insert('INSERT INTO `call_status`(`project_code`, `respondent_id`, `interviewed_by`, `interview_date`, `status`) 
                     VALUES ('.$project_code.','.$respondent_id.','.Auth::user()->id.',"'.$myDateTime.'",'.$calling_status.')');
         
+        return 1;
+    }
+
+    public function set_to_new_contact(Request $request, $id)
+    {
+        $project=Project::find($id);
+        $project_code=$project->project_code;
+
+        $survey_link=$request->input('myLink');
+        // $calling_status=$request->input('calling_status');
+        // $respondent_id=$request->input('respondent_id');
+
+        
+        date_default_timezone_set('Asia/Dhaka');
+        $myDateTime=(string)Carbon::now();
+
+        DB::update('UPDATE `survey_links_'.$project_code.'` SET `interviewed_by`=0,`status`=1 WHERE `survey_link`="'.$survey_link.'"');
+        // dd($survey_link);
         return 1;
     }
 
@@ -194,22 +302,92 @@ class SurveyDataController extends Controller
         $end_date=$request->input('end_date');
 
         
-        $db_results=DB::select('SELECT users.name AS "InterviewerName", SUM(CASE WHEN sl.status=3 THEN 1 ELSE 0 END) as "CompleteInterview",
+        $db_results=DB::select('SELECT users.name AS "InterviewerName", COUNT(sl.interviewed_by) AS ColTotal,
+                    SUM(CASE WHEN sl.status=3 THEN 1 ELSE 0 END) as "CompleteInterview",
                     SUM(CASE WHEN sl.status=2 THEN 1 ELSE 0 END) as "IncompleteInterview",
                     SUM(CASE WHEN sl.status=4 THEN 1 ELSE 0 END) as "RingingnotReceived",
                     SUM(CASE WHEN sl.status=5 THEN 1 ELSE 0 END) as "SwitchedOff",
                     SUM(CASE WHEN sl.status=6 THEN 1 ELSE 0 END) as "InvalidNumber"
                 FROM survey_links_'.$project_code.' AS sl
                 INNER join users on sl.interviewed_by=users.id 
-                WHERE sl.interviewed_by>0 AND sl.interview_date BETWEEN "'.$start_date.'" AND "'.$end_date.'" 
+                WHERE sl.interviewed_by>0 AND sl.status>1 AND sl.interview_date BETWEEN "'.$start_date.'" AND "'.$end_date.'" 
                 GROUP BY users.name');
         
-        return $db_results;
+            $db_total_results=DB::select('SELECT "Total" AS Total, COUNT(sl.interviewed_by) AS ColTotal, 
+                SUM(CASE WHEN sl.status=3 THEN 1 ELSE 0 END) as "CompleteInterview",
+                SUM(CASE WHEN sl.status=2 THEN 1 ELSE 0 END) as "IncompleteInterview",
+                SUM(CASE WHEN sl.status=4 THEN 1 ELSE 0 END) as "RingingnotReceived",
+                SUM(CASE WHEN sl.status=5 THEN 1 ELSE 0 END) as "SwitchedOff",
+                SUM(CASE WHEN sl.status=6 THEN 1 ELSE 0 END) as "InvalidNumber"
+            FROM survey_links_'.$project_code.' AS sl
+            INNER join users on sl.interviewed_by=users.id 
+            WHERE sl.interviewed_by>0 AND sl.status>1 AND sl.interview_date BETWEEN "'.$start_date.'" AND "'.$end_date.'"');
+        
+        // dd($db_total_results);
+        return [$db_results,$db_total_results];
     }
 
     public function export_survey_data(Request $request, $id)
     {
-        $my_query=$this->get_survey_data_query($request,$id);
+        // $my_query=$this->get_survey_data_query($request,$id);
+
+        $project=Project::find($id);
+        $project_code=$project->project_code;
+
+
+        $filter_qids=$request->input('all_filter_qids');
+        $filter_values=$request->input('selected_filter_values');
+
+        $where=$this->get_where_syntax($filter_qids,$filter_values);
+
+        if($where!="")
+            $where=' AND '.$where;
+        $contact_type=$request->input('contactType');
+    
+        $my_query=[];
+        if($project_code=="23903"){
+            if($contact_type==2){
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                a1.attribute_label as PanelBrand, 
+                d1.MtoPoint FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
+            }else{
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                a1.attribute_label as PanelBrand, 
+                d1.MtoPoint FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                WHERE sl.status='.$contact_type.$where;
+            }
+        }elseif($project_code=="23902"){
+            if($contact_type==2){
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                d1.ShopName, 
+                d1.MtoPoint FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where;
+            }else{
+                $my_query='SELECT d1.id, 
+                CONCAT(" ", d1.RespondentId) as RespondentId, 
+                d1.RespName,	
+                d1.RespMobile, 
+                d1.ShopName, 
+                d1.MtoPoint FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status='.$contact_type.$where;
+            }
+        }
 
         return Excel::download(new SurveyDataExport($my_query), 'Search_Result.xlsx');
 

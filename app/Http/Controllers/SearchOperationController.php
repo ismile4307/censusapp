@@ -35,7 +35,7 @@ class SearchOperationController extends Controller
         $project=Project::find($id);
         $project_code=$project->project_code;
 
-        $table_info=DB::select('SELECT qid, question_text FROM questions_'.$project_code.' WHERE project_code='.$project_code.' AND qtype=1 AND show_in_filter=1 and status=1');
+        $table_info=DB::select('SELECT qid, question_text FROM questions_'.$project_code.' WHERE qtype=1 AND show_in_filter=1 and status=1');
 
         $selected_parameter=DB::select('SELECT qid, question_text FROM filter_parameters WHERE project_id='.$id.' AND user_id='.Auth::User()->id);
 
@@ -74,7 +74,7 @@ class SearchOperationController extends Controller
 
     private function get_qtext($project_code,$qid)
     {
-        $qtext=DB::select('SELECT question_text FROM questions_'.$project_code.' WHERE project_code='.$project_code.' AND qid="'.$qid.'"');
+        $qtext=DB::select('SELECT question_text FROM questions_'.$project_code.' WHERE qid="'.$qid.'"');
         return $qtext[0]->question_text;
     }
 
@@ -106,7 +106,7 @@ class SearchOperationController extends Controller
         $project=Project::find($id);
         $project_code=$project->project_code;
 
-        $db_results=DB::select('SELECT attribute_value, attribute_label FROM attributes_'.$project_code.' WHERE project_code='.$project_code.' AND qid="'.$qid.'" ORDER BY attribute_order');
+        $db_results=DB::select('SELECT attribute_value, attribute_label FROM attributes_'.$project_code.' WHERE qid="'.$qid.'" ORDER BY attribute_order');
         return $db_results;
 
     }

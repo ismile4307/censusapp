@@ -32,38 +32,7 @@ class AdminController extends Controller
         return view('admin.user.home',['users'=>$users]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -124,5 +93,25 @@ class AdminController extends Controller
     {
         $users=User::with('organization')->with('user_type')->get();//->paginate(5);
         return $users;
+    }
+
+    public function change_password_index(){
+        return view('admin.user.change_password');
+    }
+
+    public function reset_password_index($id){
+        $user = User::find($id);
+        return view('admin.reset_password',['user'=>$user]);
+    }
+
+    public function reset_password(Request $request){
+        $id = $request->input('id');
+        $password = $request->input('password');
+        $confirm_password=$request->input('password_confirmation');
+
+        // dd($request);
+
+        $user = User::find($id);
+        return view('admin.reset_password',['user'=>$user]);
     }
 }

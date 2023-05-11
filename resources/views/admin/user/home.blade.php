@@ -25,7 +25,7 @@
                             <th>Organization</th>
                             <th>User Type</th>
                             <th>User Status</th>
-                            <th>Actions</th>
+                            <th colspan="2" class="text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,6 +62,20 @@
                                         <a href="{{ URL::to('user/' . $value->id . '/edit') }}">Edit User</a>
                         
                                     </td>
+                                    @if(Auth::user()->id==1)
+                                        <td>
+                            
+                                            <!-- delete the shark (uses the destroy method DESTROY /sharks/{id} -->
+                                            <!-- we will add this later since its a little more complicated than the other two buttons -->
+                            
+                                            <!-- show the shark (uses the show method found at GET /sharks/{id} -->
+                                            {{-- <a class="btn btn-small btn-success" href="{{ URL::to('sharks/' . $value->id) }}">Show Details</a> --}}
+                            
+                                            <!-- edit this shark (uses the edit method found at GET /sharks/{id}/edit -->
+                                            <a href="{{ URL::to('user/' . $value->id . '/reset_password/index') }}">Reset Password</a>
+                            
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

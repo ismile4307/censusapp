@@ -54,6 +54,7 @@ Route::get('/data_analysis/{id}/survey_data/get_filter_parameter', [SurveyDataCo
 Route::post('/data_analysis/{id}/survey_data/get_survey_data', [SurveyDataController::class, 'get_survey_data'])->name('get_survey_data');
 Route::post('/data_analysis/{id}/survey_data/update_data_status', [SurveyDataController::class, 'update_data_status'])->name('update_data_status');
 Route::post('/data_analysis/{id}/survey_data/update_survey_data', [SurveyDataController::class, 'update_survey_data'])->name('update_survey_data');
+Route::post('/data_analysis/{id}/survey_data/set_to_new_contact', [SurveyDataController::class, 'set_to_new_contact'])->name('set_to_new_contact');
 Route::post('/data_analysis/{id}/survey_data/cati_report', [SurveyDataController::class, 'cati_report'])->name('cati_report');
 Route::post('/data_analysis/{id}/survey_data/export_survey_data', [SurveyDataController::class, 'export_survey_data'])->name('export_survey_data');
 
@@ -120,6 +121,12 @@ Route::get('/settings/{id}/{qid}/set_variables/remove_variable', [ShowingVariabl
 Route::get('/user',[AdminController::class,'index'])->name('user_settings');
 Route::get('/user/{id}/edit',[AdminController::class,'edit'])->name('edit_user');
 Route::post('/user/{id}/update',[AdminController::class,'update'])->name('update_user');
+
+Route::get('/user/change-password/index', [AdminController::class, 'change_password_index'])->name('change_password_index');
+Route::get('/user/change-password', [AdminController::class, 'change_password'])->name('change_password');
+Route::get('/user/{id}/reset_password/index', [AdminController::class, 'reset_password_index'])->name('reset_password_index');
+Route::post('/user/reset_password', [AdminController::class, 'reset_password'])->name('reset_password');
+
 
 //**** User Type */
 Route::get('/user_type/index',[UserTypeController::class,'index'])->name('user_type_index');
