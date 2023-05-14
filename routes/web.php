@@ -20,7 +20,6 @@ use App\Http\Controllers\FilterParametersController;
 use App\Http\Controllers\ShowingVariablesController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Controllers\Settings\ProjectUsersController;
-use App\Http\Controllers\RespondentpanelController;
 
 /*
 |--------------------------------------------------------------------------
