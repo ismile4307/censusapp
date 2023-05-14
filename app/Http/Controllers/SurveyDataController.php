@@ -88,6 +88,20 @@ class SurveyDataController extends Controller
 
         $where=$this->get_where_syntax($filter_qids,$filter_values);
 
+        $has_last_purchase_filter=0;
+        // foreach($filter_qids as $qid){
+        //     if($qid=='LastPurchase')
+        //         $has_last_purchase_filter=1;
+        // }
+
+        $i=0;
+        foreach($filter_qids as $qid){
+            if($filter_values[$i]!=0 && $qid=='LastPurchase'){
+                $has_last_purchase_filter=1;
+            }
+            $i++;
+        }
+
         if($where!="")
             $where=' AND '.$where;
         $contact_type=$request->input('contactType');
@@ -105,7 +119,50 @@ class SurveyDataController extends Controller
                 INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
                 INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
                 WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where.' ORDER BY RAND() LIMIT 50';
+            }else if($contact_type==1 && $has_last_purchase_filter==1){
+
+                date_default_timezone_set('Asia/Dhaka');
+                $myDateTime=(string)Carbon::now();
+
+                $start_date=Str::substr($myDateTime,0,10)." 00:00:01";
+                $end_date=Str::substr($myDateTime,0,10)." 23:59:59";
+
+                $db_results=DB::select('SELECT COUNT(d1.id) AS Total FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                WHERE sl.status=3 AND interviewed_by='.Auth::user()->id.$where.' AND interview_date BETWEEN "'.$start_date.'" AND "'.$end_date.'"');
+
+                // dd('SELECT COUNT(d1.id) AS Total FROM data_sr_'.$project_code.' as d1 
+                // INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                // WHERE sl.status=3 AND interviewed_by='.Auth::user()->id.$where.' AND interview_date BETWEEN "'.$start_date.'" AND "'.$end_date.'"');
+
+                if($db_results[0]->Total<10)
+                {
+                    $my_query='SELECT d1.id, 
+                    CONCAT(" ", d1.RespondentId) as RespondentId, 
+                    d1.RespName,	
+                    d1.RespMobile, 
+                    a1.attribute_label as PanelBrand, 
+                    d1.MtoPoint, 
+                    sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                    INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                    INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                    WHERE sl.status='.$contact_type.$where.' ORDER BY RAND() LIMIT 50';
+                }else{
+                    //This is for Dummy Query and this will not get any data
+                    $my_query='SELECT d1.id, 
+                    CONCAT(" ", d1.RespondentId) as RespondentId, 
+                    d1.RespName,	
+                    d1.RespMobile, 
+                    a1.attribute_label as PanelBrand, 
+                    d1.MtoPoint, 
+                    sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                    INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
+                    INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
+                    WHERE sl.status=99 ORDER BY RAND() LIMIT 50';
+                }
+
             }else{
+
                 $my_query='SELECT d1.id, 
                 CONCAT(" ", d1.RespondentId) as RespondentId, 
                 d1.RespName,	
@@ -304,6 +361,7 @@ class SurveyDataController extends Controller
         
         $db_results=DB::select('SELECT users.name AS "InterviewerName", COUNT(sl.interviewed_by) AS ColTotal,
                     SUM(CASE WHEN sl.status=3 THEN 1 ELSE 0 END) as "CompleteInterview",
+                    SUM(CASE WHEN sl.status=7 THEN 1 ELSE 0 END) as "TerminateInterview",
                     SUM(CASE WHEN sl.status=2 THEN 1 ELSE 0 END) as "IncompleteInterview",
                     SUM(CASE WHEN sl.status=4 THEN 1 ELSE 0 END) as "RingingnotReceived",
                     SUM(CASE WHEN sl.status=5 THEN 1 ELSE 0 END) as "SwitchedOff",
@@ -315,6 +373,7 @@ class SurveyDataController extends Controller
         
             $db_total_results=DB::select('SELECT "Total" AS Total, COUNT(sl.interviewed_by) AS ColTotal, 
                 SUM(CASE WHEN sl.status=3 THEN 1 ELSE 0 END) as "CompleteInterview",
+                SUM(CASE WHEN sl.status=7 THEN 1 ELSE 0 END) as "TerminateInterview",
                 SUM(CASE WHEN sl.status=2 THEN 1 ELSE 0 END) as "IncompleteInterview",
                 SUM(CASE WHEN sl.status=4 THEN 1 ELSE 0 END) as "RingingnotReceived",
                 SUM(CASE WHEN sl.status=5 THEN 1 ELSE 0 END) as "SwitchedOff",

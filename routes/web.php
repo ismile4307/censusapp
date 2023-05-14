@@ -20,6 +20,7 @@ use App\Http\Controllers\FilterParametersController;
 use App\Http\Controllers\ShowingVariablesController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Controllers\Settings\ProjectUsersController;
+use App\Http\Controllers\Settings\SetupSurveyLinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +99,11 @@ Route::post('/data_analysis/{id}/search_operation/download_search_data', [Search
 
 
 //********************* Settings */
+Route::get('/settings/{id}/setup_survey_link/index', [SetupSurveyLinkController::class, 'index'])->name('setup_survey_link_index');
+Route::get('/settings/{id}/setup_survey_link/get_panel_data_info', [SetupSurveyLinkController::class, 'get_panel_data_info'])->name('get_panel_data_info');
+Route::get('/settings/{id}/setup_survey_link/set_link_to_panel_data', [SetupSurveyLinkController::class, 'set_link_to_panel_data'])->name('set_link_to_panel_data');
+
+
 Route::get('/settings/{id}/survey_filters/index', [SurveyFiltersController::class, 'index'])->name('filter_parameters_index');
 Route::get('/settings/{id}/survey_filters/get_table_data', [SurveyFiltersController::class, 'get_table_data'])->name('get_table_data');
 Route::get('/settings/{id}/survey_filters/get_variable_list', [SurveyFiltersController::class, 'get_variable_list'])->name('get_variable_list');

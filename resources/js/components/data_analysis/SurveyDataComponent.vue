@@ -87,6 +87,9 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div v-else-if="click_search==1" class="text-center mt-2">
+                                        <label class="col-form-label col-form-label-sm" style="color:red"> No Data found/Today's quota for a particular selection is filled up </label>
+                                    </div>
                                 </div>
                                 <div v-if="project_id==5">
                                     <div v-if="this.all_data.length>0" class="table-container mt-2"> 
@@ -226,6 +229,7 @@
                                 <th style="background-color:white;">Interviewer Name</th>
                                 <th  class="text-center" style="background-color:white;">Total Contact</th>
                                 <th  class="text-center" style="background-color:white;">Complete Interview</th>
+                                <th  class="text-center" style="background-color:white;">Terminate Interview</th>
                                 <th  class="text-center" style="background-color:white;">Incomplete Interview</th>
                                 <th  class="text-center" style="background-color:white;">Ringing not Received</th>
                                 <th  class="text-center" style="background-color:white;">Switched Off</th>
@@ -237,6 +241,7 @@
                                     <td> {{row.InterviewerName}}</td>
                                     <td class="text-center" style="font-weight: bold;"> {{row.ColTotal}}</td>
                                     <td class="text-center"> {{row.CompleteInterview}}</td>
+                                    <td class="text-center"> {{row.TerminateInterview}}</td>
                                     <td class="text-center"> {{row.IncompleteInterview}}</td>
                                     <td class="text-center"> {{row.RingingnotReceived}}</td>
                                     <td class="text-center"> {{row.SwitchedOff}}</td>
@@ -246,6 +251,7 @@
                                     <th> {{row.Total}}</th>
                                     <th class="text-center"> {{row.ColTotal}}</th>
                                     <th class="text-center"> {{row.CompleteInterview}}</th>
+                                    <th class="text-center"> {{row.TerminateInterview}}</th>
                                     <th class="text-center"> {{row.IncompleteInterview}}</th>
                                     <th class="text-center"> {{row.RingingnotReceived}}</th>
                                     <th class="text-center"> {{row.SwitchedOff}}</th>
@@ -319,12 +325,14 @@
             total_record:'',
             report_data_total:[],
 
+            click_search:'',
             }
         },
 
         props:['project_id'],
 
         mounted() {
+            this.click_search=0;
             this.loadFilter();
             //console.log(this.project_name);
         },
@@ -364,6 +372,7 @@
                             this.total_record = response.data[1];
                             // this.all_keys=this.all_data[0];
                             // console.log(Object.keys(this.all_keys));
+                            this.click_search=1;                            
                     })
                         .catch(function (error) {this.errors = error});
                 }else{
