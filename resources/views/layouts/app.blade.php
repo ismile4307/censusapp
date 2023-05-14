@@ -11,37 +11,31 @@
     <title>DBI Research Private Ltd.</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-  
+    <!--<link rel="dns-prefetch" href="//fonts.gstatic.com">-->
+    <link rel="icon" href="http://localhost:8000/assets/images/logo.png">
+    <!--<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">-->
+
     {{-- googleChart --}}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
     
     <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
-          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
-          crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" 
-          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
-          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
   
-  
-  <!-- Fonts -->
+
+    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     {{-- bootstrap --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-    
+      
 
        <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -70,9 +64,8 @@
     <!-- <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css"> -->
     <!-- summernote -->
     {{-- <link rel="stylesheet" href="http://localhost:8000/plugins/summernote/summernote-bs4.min.css"> --}}
-<style>
-  .date{ z-index:99999 !important; }
-</style>
+
+
     @yield('style')
 </head>
 
@@ -96,6 +89,9 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="{{url('home')}}" class="nav-link">Home</a>
         </li>
+        <!--<li class="nav-item d-none d-sm-inline-block">-->
+        <!--  <a href="#" class="nav-link">{{$project->project_name}}</a>-->
+        <!--</li>-->
         {{-- <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">Contact</a>
         </li> --}}
@@ -124,7 +120,6 @@
                   </a>
 
                   <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{{ route('change_password_index') }}"> {{ __('Change Password') }} </a>
                       <a class="dropdown-item" href="{{ route('logout') }}"
                          onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
@@ -211,7 +206,7 @@
                     <li class="nav-item">
                       <a href="{{ url('/data_analysis/' . $project->id . '/survey_data') }}" class="nav-link" id="survey-data-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Survey Data</p>
+                        <p>Panel Database</p>
                       </a>
                     </li>
                   @endif
@@ -314,11 +309,19 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
+                  @if($activity->A24==1)
+                    <li class="nav-item">
+                      <a href="{{url('/settings/' . $project->id . '/setup_survey_link/index')}}" class="nav-link" id="setup-surveylink-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Setup Survey Link</p>
+                      </a>
+                    </li>
+                  @endif
                   @if($activity->A21==1)
                     <li class="nav-item">
                       <a href="{{url('/settings/' . $project->id . '/survey_filters/index')}}" class="nav-link" id="survey-finters-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Survey Filters</p>
+                        <p>Filter Panel Data</p>
                       </a>
                     </li>
                   @endif
@@ -326,7 +329,7 @@
                     <li class="nav-item">
                       <a href="{{url('/settings/' . $project->id . '/filter_parameters/index')}}" class="nav-link" id="filter-parameters-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Filter Parameters</p>
+                        <p>Filter Variables</p>
                       </a>
                     </li>
                   @endif
@@ -334,7 +337,7 @@
                     <li class="nav-item">
                       <a href="{{url('/settings/' . $project->id . '/set_variables/index')}}" class="nav-link" id="showing-varibles-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Set View Variables</p>
+                        <p>Table Variables</p>
                       </a>
                     </li>
                   @endif
@@ -508,7 +511,7 @@
     <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-  <!-- jQuery for left manu-->
+  <!-- jQuery -->
   <script src="http://localhost:8000/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
   {{-- <script src="http://localhost:8000/plugins/jquery-ui/jquery-ui.min.js"></script> --}}
@@ -554,24 +557,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $('.date').datepicker({  
-           format: 'dd-mm-yyyy',
-           autoclose:true
-         });  
-        });
-
-        // $("body").delegate(".date", "focusin", function () {
-            
-        //     $(this).datepicker({  
-        //    format: 'dd-mm-yyyy',
-        //    autoclose:true
-        //  });
-        // });
-    </script> 
 
   @yield('script')
   </body>

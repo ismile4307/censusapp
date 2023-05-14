@@ -42,10 +42,12 @@ app.component('dashboard-component', DashboardComponent);
 app.component('search_operation-component', SearchOperationComponent);
 
 
+import SetupSurveyLinkComponent from './components/settings/SetupSurveyLinkComponent.vue';
 import SurveyFiltersComponent from './components/settings/SurveyFiltersComponent.vue';
 import FilterParameterComponent from './components/settings/FilterParameterComponent.vue';
 import ShowingVariablesComponent from './components/settings/ShowingVariablesComponent.vue';
 
+app.component('setup_survey_link-component', SetupSurveyLinkComponent);
 app.component('survey_filters-component', SurveyFiltersComponent);
 app.component('filter_parameter-component', FilterParameterComponent);
 app.component('showing_variables-component', ShowingVariablesComponent);
