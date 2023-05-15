@@ -574,6 +574,14 @@
     </script> 
 
   @yield('script')
+
+
+  <script>
+    $(document).ready(function(){
+      $("body").addClass("sidebar-collapse");
+     });
+    </script>
+
   </body>
 </html>
 
