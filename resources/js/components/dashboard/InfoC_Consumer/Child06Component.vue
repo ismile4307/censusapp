@@ -70,7 +70,7 @@
                 <!-- /.info-box-content -->
               </div>
 
-              <div class="info-box card-outline card-success" style="margin-bottom: 6px;">
+              <div class="info-box card-outline card-warning" style="margin-bottom: 6px;">
                 <!-- <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span> -->
 
                 <div class="info-box-content text-center">
@@ -80,7 +80,7 @@
                 <!-- /.info-box-content -->
               </div>
 
-              <div class="info-box card-outline card-info mb-1">
+              <div class="info-box card-outline card-warning mb-1">
                 <!-- <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span> -->
 
                 <div class="info-box-content text-center">
@@ -92,7 +92,7 @@
 
             </div>
             <div class="col-md-3">
-                <div class="card p-0 card-outline card-info">
+                <div class="card p-0 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="paichart_LoyalConsumer"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart2 }}</span>
@@ -100,23 +100,32 @@
                 </div>                
             </div>
 
-            <div class="col-md-3">
-                <div class="card p-0 card-outline card-primary">
+            <!-- <div class="col-md-3">
+                <div class="card p-0 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="paichart_LapserConsumer"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart3 }}</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-md-4">
-                <div class="card pl-3 pr-3 card-outline card-secondary">
+                <div class="card pl-3 pr-3 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_loyalbyBrand"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart4 }}</span>
                     </div>
                 </div>
-            </div>            
+            </div> 
+            <div class="col-md-3">
+                <div class="card p-0 card-outline card-warning">
+                    <div class="card-body p-0" style="overflow: hidden;">
+                        <div id="paichart_needAlternative"></div>
+                        <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart5 }}</span>
+                    </div>
+                </div>                
+            </div>
+
         </div>
 
 
@@ -129,14 +138,14 @@
                 </div>
             </div> -->
         
-            <div class="col-md-3">
-                <div class="card p-0 card-outline card-danger">
+            <!-- <div class="col-md-3">
+                <div class="card p-0 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="paichart_needAlternative"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart5 }}</span>
                     </div>
                 </div>                
-            </div>
+            </div> -->
             
             <div class="col-md-6">
                 <div class="card p-0 card-outline card-warning">
@@ -148,7 +157,7 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card p-0 card-outline card-primary">
+                <div class="card p-0 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_PlaceOfPurchase"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart7 }}</span>
@@ -168,7 +177,7 @@
             </div> -->
         
             <div class="col-md-4">
-                <div class="card p-0 card-outline card-danger">
+                <div class="card p-0 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_reasoneSpont"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart8 }}</span>
@@ -186,7 +195,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card p-0 card-outline card-primary">
+                <div class="card p-0 card-outline card-warning">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_reasoneAll"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart10 }}</span>
@@ -306,7 +315,7 @@ export default {
         //google.charts.setOnLoadCallback(drawChartCallSummary);
         // google.charts.setOnLoadCallback(drawChartPanelSize(this.dataChart1));
         google.charts.setOnLoadCallback(drawChartLoyalConsumer(this.dataChart2));
-        google.charts.setOnLoadCallback(drawChartLapserConsumer(this.dataChart3));
+        // google.charts.setOnLoadCallback(drawChartLapserConsumer(this.dataChart3));
         google.charts.setOnLoadCallback(drawChartPricePerception(this.dataChart4));
 
         
@@ -386,21 +395,21 @@ google.charts.load('current', {'packages':['table']});
     }
 
     //***pie chart */
-    function drawChartLapserConsumer(dataChart3) {
-      var data = google.visualization.arrayToDataTable(dataChart3);
+    // function drawChartLapserConsumer(dataChart3) {
+    //   var data = google.visualization.arrayToDataTable(dataChart3);
 
-      var options = {
-        title: 'Lapser Consumer by store type',
-        pieHole: 0.4,
-        chartArea:{left:20,top:40,width:'95%',height:'70%'},
-        height:230,
-        width:270,
-      };
+    //   var options = {
+    //     title: 'Lapser Consumer by store type',
+    //     pieHole: 0.4,
+    //     chartArea:{left:20,top:40,width:'95%',height:'70%'},
+    //     height:230,
+    //     width:270,
+    //   };
 
-    var piechart = new google.visualization.PieChart(document.getElementById("paichart_LapserConsumer"));
-    piechart.draw(data, options);
+    // var piechart = new google.visualization.PieChart(document.getElementById("paichart_LapserConsumer"));
+    // piechart.draw(data, options);
 
-    }
+    // }
 
     //***column chart */
     function drawChartPricePerception(dataChart4){

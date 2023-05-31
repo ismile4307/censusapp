@@ -6,11 +6,11 @@
                     <div class="card-header">
                         <button @click="loadDashboard(1)" id="dashboard1" type="button" class="btn btn-outline-primary pl-2 pt-1 pr-2 pb-1 btn-sm">General Section</button>
                         <button @click="loadDashboard(2)" id="dashboard2" type="button" class="btn btn-outline-info pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Active School</button>
-                        <button @click="loadDashboard(3)" id="dashboard3" type="button" class="btn btn-outline-warning pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Gold</button>
+                        <button @click="loadDashboard(3)" id="dashboard3" type="button" class="btn btn-outline-success pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Gold</button>
                         <button @click="loadDashboard(4)" id="dashboard4" type="button" class="btn btn-outline-secondary pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Diabetic</button>
-                        <button @click="loadDashboard(5)" id="dashboard5" type="button" class="btn btn-outline-danger pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Young Star</button>
+                        <button @click="loadDashboard(5)" id="dashboard5" type="button" class="btn btn-outline-dark pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Young Star</button>
                         <button @click="loadDashboard(6)" id="dashboard6" type="button" class="btn btn-outline-warning pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Diet</button>
-                        <button @click="loadDashboard(7)" id="dashboard7" type="button" class="btn btn-outline-secondary pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Active School 2in1</button>
+                        <button @click="loadDashboard(7)" id="dashboard7" type="button" class="btn btn-outline-info pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Active School 2in1</button>
                         <button @click="loadDashboard(8)" id="dashboard8" type="button" class="btn btn-outline-danger pl-2 pt-1 pr-2 pb-1 btn-sm ml-2">Marks Tin</button>
                     </div>
 

@@ -38,7 +38,7 @@
         
             <div class="col-md-4">
                 <div class="card p-0">
-                    <div class="card-body p-0 card-outline card-info" style="overflow: hidden;">
+                    <div class="card-body p-0 card-outline card-primary" style="overflow: hidden;">
                         <div id="table_chart1"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart1 }}</span>
                     </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card p-0">
-                    <div class="card-body p-0 card-outline card-warning" style="overflow: hidden;">
+                    <div class="card-body p-0 card-outline card-primary" style="overflow: hidden;">
                         <div id="barchart_placeofbuying"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart5 }}</span>
                     </div>
@@ -78,7 +78,7 @@
         
             <div class="col-md-4">
                 <div class="card p-0">
-                    <div class="card-body p-0 card-outline card-secondary" style="overflow: hidden;">
+                    <div class="card-body p-0 card-outline card-primary" style="overflow: hidden;">
                         <div id="paichart_loyalconsumer"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart3 }}</span>
                     </div>
@@ -86,7 +86,7 @@
                 
             </div>
             <div class="col-md-8">
-                <div class="card pl-3 pr-3 card-outline card-info">
+                <div class="card pl-3 pr-3 card-outline card-primary">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_loyalbyBrand"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart6 }}</span>
@@ -107,7 +107,7 @@
 
         <div class="row">
             <div class="col-md-4">
-                <div class="card pl-3 pr-3 card-outline card-info">
+                <div class="card pl-3 pr-3 card-outline card-primary">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_busket1"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart7 }}</span>
@@ -115,7 +115,7 @@
                 </div>                
             </div>
             <div class="col-md-4">
-                <div class="card pl-3 pr-3 card-outline card-info">
+                <div class="card pl-3 pr-3 card-outline card-primary">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_busket2"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart7 }}</span>
@@ -123,7 +123,7 @@
                 </div>                
             </div>
             <div class="col-md-4">
-                <div class="card pl-3 pr-3 card-outline card-info">
+                <div class="card pl-3 pr-3 card-outline card-primary">
                     <div class="card-body p-0" style="overflow: hidden;">
                         <div id="columnchart_busket3"></div>
                         <span style="font-size: smaller;margin-left: 20px;">Base: {{ this.baseChart7 }}</span>
