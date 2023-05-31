@@ -157,27 +157,7 @@
   
       <!-- Sidebar -->
       <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-          </div>
-          <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
-          </div>
-        </div> -->
-  
-        <!-- SidebarSearch Form -->
-        <!-- <div class="form-inline">
-          <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-sidebar">
-                <i class="fas fa-search fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div> -->
+
   
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -192,68 +172,6 @@
                 </p>
               </a>
             </li>
-            @if($activity->A11==1 || $activity->A12==1 || $activity->A13==1 || $activity->A14==1 || $activity->A15==1)
-              <li class="nav-item" id="data-analysis-list">
-                <a href="#" class="nav-link" id="data-analysis-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>
-                    Data Analysis
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  @if($activity->A11==1)
-                    <li class="nav-item">
-                      <a href="{{ url('/data_analysis/' . $project->id . '/survey_data') }}" class="nav-link" id="survey-data-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Panel Database</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A12==1)
-                    <li class="nav-item">
-                      <a href="{{ url('/data_analysis/' . $project->id . '/frequency_table') }}" class="nav-link" id="frequency-table-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Frequency Table</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A13==1)
-                    <li class="nav-item">
-                      <a href="{{ url('/data_analysis/' . $project->id . '/cross_table') }}" class="nav-link" id="cross-table-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Cross Table</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A14==1)
-                    <li class="nav-item">
-                      <a href="{{ url('/data_analysis/' . $project->id . '/advanced_analysis') }}" class="nav-link" id="advanced-analysis-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Advance Analysis</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A15==1)
-                    <li class="nav-item">
-                      <a href="{{ url('/data_analysis/' . $project->id . '/dashboard') }}" class="nav-link" id="dashboard-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A16==1)
-                    <li class="nav-item">
-                      <a href="{{ url('/data_analysis/' . $project->id . '/search_operation') }}" class="nav-link" id="search-operation-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Search Operation</p>
-                      </a>
-                    </li>
-                  @endif
-                </ul>
-              </li>
-            @endif
-
             @if ($activity->A31==1 || $activity->A32==1)
               <li class="nav-item" id="resp_panel_list">
                 <a href="#" class="nav-link" id="resp_panel_link">
@@ -280,208 +198,19 @@
                       </a>
                     </li>
                   @endif
-                </ul>
-              </li>
-            @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            @if($activity->A21==1 || $activity->A22==1 || $activity->A23==1 || $activity->A24==1)
-              <li class="nav-item" id="settings-list">
-                <a href="#" class="nav-link" id="settings-link">
-                  <i class="nav-icon fas fa-copy"></i>
-                  <p>
-                    Settings
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  @if($activity->A24==1)
-                    <li class="nav-item">
-                      <a href="{{url('/settings/' . $project->id . '/setup_survey_link/index')}}" class="nav-link" id="setup-surveylink-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Setup Survey Link</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A21==1)
-                    <li class="nav-item">
-                      <a href="{{url('/settings/' . $project->id . '/survey_filters/index')}}" class="nav-link" id="survey-finters-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Filter Panel Data</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A22==1)
-                    <li class="nav-item">
-                      <a href="{{url('/settings/' . $project->id . '/filter_parameters/index')}}" class="nav-link" id="filter-parameters-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Filter Variables</p>
-                      </a>
-                    </li>
-                  @endif
-                  @if($activity->A23==1)
-                    <li class="nav-item">
-                      <a href="{{url('/settings/' . $project->id . '/set_variables/index')}}" class="nav-link" id="showing-varibles-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Table Variables</p>
-                      </a>
-                    </li>
-                  @endif
                   @if($activity->A24==1)
                     <li class="nav-item">
                       <a href="{{url('/settings/' . $project->id . '/project_users/index')}}" class="nav-link" id="project-users-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Project User</p>
+                        <p>Panel User</p>
                       </a>
                     </li>
                   @endif
                 </ul>
               </li>
             @endif
-            {{-- <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-chart-pie"></i>
-                <p>
-                  Charts
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/charts/chartjs.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>ChartJS</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/charts/flot.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Flot</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/charts/inline.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Inline</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/charts/uplot.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>uPlot</p>
-                  </a>
-                </li>
-              </ul>
-            </li> --}}
-            {{-- <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tree"></i>
-                <p>
-                  UI Elements
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/UI/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/icons.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Icons</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/buttons.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Buttons</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/sliders.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Sliders</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/modals.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Modals & Alerts</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/navbar.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Navbar & Tabs</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/timeline.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Timeline</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/UI/ribbons.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Ribbons</p>
-                  </a>
-                </li>
-              </ul>
-            </li> --}}
-            {{-- <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-edit"></i>
-                <p>
-                  Forms
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/forms/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/forms/advanced.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Advanced Elements</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/forms/editors.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Editors</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/forms/validation.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Validation</p>
-                  </a>
-                </li>
-              </ul>
-            </li> --}}
-            
+
+                       
             
           </ul>
         </nav>
@@ -494,15 +223,6 @@
         @yield('content')
       </main>
     </div>
-
-    <!-- /.content-wrapper -->
-    {{-- <footer class="main-footer">
-      <strong>Copyright &copy; 2021-2023 <a href="https://dbibd.com">DBI Research Private Ltd.</a>.</strong>
-      All rights reserved.
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1.0.1
-      </div>
-    </footer> --}}
   
     <!-- Control Sidebar -->
     <!-- <aside class="control-sidebar control-sidebar-dark"> -->
@@ -560,19 +280,6 @@
       $(document).ready(function(){
         $("body").addClass("sidebar-collapse");
     });
-
-      // var elem = document.documentElement;
-
-      // /* View in fullscreen */
-      // function openFullscreen() {
-      //   if (elem.requestFullscreen) {
-      //     elem.requestFullscreen();
-      //   } else if (elem.webkitRequestFullscreen) { /* Safari */
-      //     elem.webkitRequestFullscreen();
-      //   } else if (elem.msRequestFullscreen) { /* IE11 */
-      //     elem.msRequestFullscreen();
-      //   }
-      // }
   </script>
 
   @yield('script')

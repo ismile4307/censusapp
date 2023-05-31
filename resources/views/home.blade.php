@@ -7,7 +7,7 @@
             <div class="card border-info">
                 <div class="card-header text-bg-info text-center"><span style="font-size: large">Project List</span></div>
 
-                    <div class="card-body">
+                    <div class="card-body pt-0">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
@@ -17,13 +17,17 @@
                         <div class="row col d-flex justify-content-center">
                             @if($projects!=null)
                                 @foreach($projects as $project)
-                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                    <div class="col-sm-3 mb-3 mb-sm-0 pt-3">
                                         <div class="card text-center text-bg-{{$project->class_name}}">
                                             <div class="card-body">
                                                 <h4 class="card-title">{{$project->project_name}}</h4>
                                                 <p class="card-text">{{$project->project_type}}</p>
                                             </div>
-                                            <div class="card-footer bg-transparent"><a href="{{'/project/'.$project->id.'/info'}}" class="btn btn-sm btn-{{$project->class_name}}">More Info-></a></div>
+                                            @if($project->project_code!=10000)
+                                                <div class="card-footer bg-transparent"><a href="{{'/project/'.$project->id.'/info'}}" class="btn btn-sm btn-{{$project->class_name}}">More Info-></a></div>
+                                            @else
+                                                <div class="card-footer bg-transparent"><a href="{{'/resp_panel/'.$project->id.'/panel_selection'}}" class="btn btn-sm btn-{{$project->class_name}}">More Info-></a></div>
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach

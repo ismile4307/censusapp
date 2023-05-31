@@ -54,6 +54,7 @@
                                 <a class="dropdown-item" href="{{ url('/settings/1/index') }}">User Type</a>
                                 <a class="dropdown-item" href="{{ url('/settings/2/index') }}">Organization</a>
                                 {{-- <a class="dropdown-item" href="{{ url('/settings/2/index') }}">Project Type</a> --}}
+                                <a class="dropdown-item" href="{{ url('/admin/download/index') }}">Download</a>
                                 </div>
                             </li>
                         @endif

@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 use App\Models\User;
 use App\Models\UserType;
+
+use Auth;
 
 class AdminController extends Controller
 {
@@ -101,7 +105,51 @@ class AdminController extends Controller
 
     public function reset_password_index($id){
         $user = User::find($id);
-        return view('admin.reset_password',['user'=>$user]);
+        return view('admin.reset_password',['user'=>$user,'msg' =>'']);
+    }
+
+    public function change_password(Request $request){
+        $password_old=$request->input('password_old');
+        $password_new=$request->input('password_new');
+        $password_confirmation=$request->input('password_confirmation');
+        
+        // if(strlen($password_new)<8)
+        // {
+            // $request->session()->flash('error', 'Minium 8 charecter should be requried');
+            // return redirect()->route('your.route');
+            // return Redirect::back()->withErrors(['msg' => 'Minium 8 charecter should be requried']);
+        // }
+        /*
+        * Validate all input fields
+        */
+        // $this->validate($request, [
+        //     'password' => 'required',
+        //     'new_password' => 'confirmed|max:8|different:password',
+        // ]);
+
+        if (Hash::check($request->password_old, Auth::user()->password)) { 
+        // $user->fill([
+        //     'password' => Hash::make($request->new_password)
+        //     ])->save();
+
+        // $request->session()->flash('success', 'Password changed');
+        //     return redirect()->route('your.route');
+            // dd("password Match");
+            
+            $user = User::find(Auth::user()->id);
+            $user->password = Hash::make($password_new);
+            $user->update();
+
+            return Redirect::back()->withErrors(['msg' => 'Password has been changed successfully']);
+
+        } else {
+            return Redirect::back()->withErrors(['msg' => 'Old password not matched']);
+            // $request->session()->flash('error', 'Password does not match');
+            // return redirect()->route('your.route');
+
+        }
+
+        // Hash::make($password_old)
     }
 
     public function reset_password(Request $request){
@@ -109,9 +157,13 @@ class AdminController extends Controller
         $password = $request->input('password');
         $confirm_password=$request->input('password_confirmation');
 
-        // dd($request);
+        $user = User::find($id);
+        $user->password = Hash::make($password);
+        $user->update();
 
         $user = User::find($id);
-        return view('admin.reset_password',['user'=>$user]);
+        // return Redirect::back()->withErrors(['user'=>$user,'msg' => 'Password has been changed successfully']);
+
+        return view('admin.reset_password',['user'=>$user,'msg' => 'Password has been changed successfully']);
     }
 }

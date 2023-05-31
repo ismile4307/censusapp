@@ -8,6 +8,17 @@
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                        @if($msg!="")
+                            <div class="alert alert-danger p-2" role="alert">
+                            {{$msg}}
+                        </div>
+                        @endif
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                     <form method="POST" action="{{ route('reset_password') }}">
                         @csrf
                         <input id="id" type="hidden" class="form-control" name="id" value="{{ $user->id }}">

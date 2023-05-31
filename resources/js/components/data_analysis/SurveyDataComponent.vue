@@ -33,8 +33,10 @@
                                             <option :value="0">Select Contact Type</option>
                                             <option :value="1">New Contact</option>
                                             <option :value="2">Incomplete Contact</option>
-                                            <option :value="3">Complete Contact</option>
                                             <option :value="4">Ringing but not Received</option>
+                                            <option :value="8">Busy or Waiting Contact</option>
+                                            <option :value="10">Agree but Participate Later</option>
+                                            <option :value="3">Complete Contact</option>
                                             <option :value="5">Switched Off</option>
                                             <option :value="6">Invalid Number</option>
                                         </select>
@@ -98,11 +100,11 @@
                                             <tr>
                                                 <!-- <th style="background-color:white;">#</th> -->
                                                 <th style="background-color:white;">Respondent Id</th>
-                                                <th style="background-color:white;">Respondent Name</th>
+                                                <th style="background-color:white;">Outlet Name</th>
                                                 <th style="background-color:white;">Contact Number</th>
                                                 <!-- <th style="background-color:white;">Link</th> -->
-                                                <th style="background-color:white;">Shop Name</th>
-                                                <th style="background-color:white;">MTO Point</th>
+                                                <th style="background-color:white;">Outlet Code</th>
+                                                <th style="background-color:white;">Outlet Type</th>
                                                 <th style="background-color:white;">Action</th>
                                             </tr>
                                             </thead>
@@ -113,8 +115,8 @@
                                                     <td> {{row.RespName}}</td>
                                                     <td> {{row.RespMobile}}</td>
                                                     <!-- <td> {{row.survey_link}}</td> -->
-                                                    <td> {{row.ShopName}}</td>
-                                                    <td> {{row.MtoPoint}}</td>
+                                                    <td> {{row.OutletCode}}</td>
+                                                    <td> {{row.OutletType}}</td>
                                                     <td>
                                                         <button style="text-decoration:none;text-align: center" type="button" class="btn btn-link btn-sm pb-0 pt-0 pl-0 pr-0" v-on:click="view_modal(row.survey_link,row.RespondentId,row.RespName,row.RespMobile)">Start Survey</button>
                                                     </td>
@@ -169,6 +171,10 @@
                                 <div class="form-check mt-2 col-12">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault" :id=2 v-bind:value="4" v-model="calling_status" v-on:click="onChange(4)">
                                     <label class="form-check-label pl-2" :for=2 style="font-size:medium">Ringing but not Received</label>
+                                </div>
+                                <div class="form-check mt-2 col-12">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" :id=5 v-bind:value="8" v-model="calling_status" v-on:click="onChange(8)">
+                                    <label class="form-check-label pl-2" :for=5 style="font-size:medium">Number Busy / Waiting</label>
                                 </div>
                                 <div class="form-check mt-2 col-12">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault" :id=3 v-bind:value="5" v-model="calling_status" v-on:click="onChange(5)">

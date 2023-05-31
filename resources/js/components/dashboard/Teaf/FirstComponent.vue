@@ -171,53 +171,53 @@
       }
 
   
-      function drawChart3(dataChart3) {
-        var data = google.visualization.arrayToDataTable(dataChart3);
+    function drawChart3(dataChart3) {
+      var data = google.visualization.arrayToDataTable(dataChart3);
 
-        var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       ]);
+      var view = new google.visualization.DataView(data);
+    view.setColumns([0, 1,
+                      { calc: "stringify",
+                        sourceColumn: 1,
+                        type: "string",
+                        role: "annotation" },
+                      ]);
 
-      // var options = {
-      //   title: "Products selling from store",
-      //   bar: {groupWidth: "95%"},
-      //   legend: { position: "none" },
-      // };
+    // var options = {
+    //   title: "Products selling from store",
+    //   bar: {groupWidth: "95%"},
+    //   legend: { position: "none" },
+    // };
 
-      var options = {
-          width: 400, height: 155,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
+    var options = {
+        width: 400, height: 155,
+        redFrom: 90, redTo: 100,
+        yellowFrom:75, yellowTo: 90,
+        minorTicks: 5
+      };
 
-      // var chart4 = new google.visualization.ColumnChart(document.getElementById("barchart_values4"));
-      // chart4.draw(view, options);
+    // var chart4 = new google.visualization.ColumnChart(document.getElementById("barchart_values4"));
+    // chart4.draw(view, options);
 
-      var chart = new google.visualization.Gauge(document.getElementById('barchart_values4'));
+    var chart = new google.visualization.Gauge(document.getElementById('barchart_values4'));
 
-        chart.draw(data, options);
+      chart.draw(data, options);
 
-        // setInterval(function() {
-        //   data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-        //   chart.draw(data, options);
-        // }, 13000);
-        // setInterval(function() {
-        //   data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-        //   chart.draw(data, options);
-        // }, 5000);
-        // setInterval(function() {
-        //   data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-        //   chart.draw(data, options);
-        // }, 26000);
-        
+      // setInterval(function() {
+      //   data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+      //   chart.draw(data, options);
+      // }, 13000);
+      // setInterval(function() {
+      //   data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+      //   chart.draw(data, options);
+      // }, 5000);
+      // setInterval(function() {
+      //   data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+      //   chart.draw(data, options);
+      // }, 26000);
       
+    
 
-      }
+    }
 
       // function drawChart3(dataChart1) {
       //   var data = google.visualization.arrayToDataTable(dataChart1);
