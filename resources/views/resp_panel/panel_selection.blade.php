@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.panel')
 
 @section('style')
     <!-- Styles Created By Ismile -->

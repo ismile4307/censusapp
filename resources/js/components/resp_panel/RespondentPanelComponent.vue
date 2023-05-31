@@ -27,7 +27,7 @@
                         <div class="text-center">
                             <button @click="getData" type="button" class="btn btn-outline-success pl-2 pt-1 pr-2 pb-1 btn-sm">Execute</button>
                             <div>
-                                <label v-if="this.all_data.length>0" class="col-form-label col-form-label-sm">Total Number of Respondent : {{ this.all_data.length }}</label>
+                                <label v-if="this.all_data.length>0" class="col-form-label col-form-label-sm">Total Number of Respondent : {{ this.all_data.length }}/{{ total_records[0].total }}</label>
                             </div>
                         </div>
 
@@ -116,6 +116,7 @@ import axios from 'axios';
                 selected_filter_values:[],
                 all_data:[],
                 table_column:[],
+                total_records:'',
 
             }
         },
@@ -181,7 +182,8 @@ import axios from 'axios';
                 })
                 .then(response => {
                     this.getColumn();
-                    this.all_data = response.data;
+                    this.total_records = response.data[0];
+                    this.all_data = response.data[1];
                 })
                 .catch(function (error) {this.errors=error});
             },

@@ -172,7 +172,7 @@ class SurveyDataController extends Controller
                 sl.survey_link FROM data_sr_'.$project_code.' as d1 
                 INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
                 INNER JOIN attributes_'.$project_code.' as a1 ON d1.PanelBrand=a1.attribute_value and a1.qid="PanelBrand"
-                WHERE sl.status='.$contact_type.$where.' ORDER BY RAND() LIMIT 50';
+                WHERE sl.status='.$contact_type.$where.' ORDER BY id LIMIT 50';
             }
         }elseif($project_code=="23902"){
             if($contact_type==2){
@@ -180,9 +180,10 @@ class SurveyDataController extends Controller
                 CONCAT(" ", d1.RespondentId) as RespondentId, 
                 d1.RespName,	
                 d1.RespMobile, 
-                d1.ShopName, 
-                d1.MtoPoint, 
+                d1.OutletCode, 
+                a1.attribute_label as OutletType, 
                 sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.OutletType=a1.attribute_value and a1.qid="OutletType"
                 INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
                 WHERE sl.status='.$contact_type.' AND interviewed_by='.Auth::user()->id.$where.' ORDER BY RAND() LIMIT 50';
             }else{
@@ -190,9 +191,10 @@ class SurveyDataController extends Controller
                 CONCAT(" ", d1.RespondentId) as RespondentId, 
                 d1.RespName,	
                 d1.RespMobile, 
-                d1.ShopName, 
-                d1.MtoPoint, 
+                d1.OutletCode, 
+                a1.attribute_label as OutletType, 
                 sl.survey_link FROM data_sr_'.$project_code.' as d1 
+                INNER JOIN attributes_'.$project_code.' as a1 ON d1.OutletType=a1.attribute_value and a1.qid="OutletType"
                 INNER JOIN survey_links_'.$project_code.' as sl ON d1.RespondentId=sl.RespondentId
                 WHERE sl.status='.$contact_type.$where.' ORDER BY RAND() LIMIT 50';
             }

@@ -21,9 +21,13 @@ use App\Http\Controllers\ShowingVariablesController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Controllers\Settings\ProjectUsersController;
 use App\Http\Controllers\Settings\SetupSurveyLinkController;
+use App\Http\Controllers\Admin\DownloadController;
+
+//Dashboard 
+use App\Http\Controllers\Dashboard\DashboardInfoCController;
 
 //Responsedent
-use App\Http\Controllers\RespondentpanelController;
+use App\Http\Controllers\Panel\RespondentpanelController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,6 +50,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('/success',function(){
+	return view('success');
+})->name('success');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/project/{id}/info', [HomeController::class, 'project_info'])->name('project_info');
@@ -91,6 +99,12 @@ Route::post('/data_analysis/{id}/dashboard/dashboard3', [DashboardController::cl
 Route::get('/data_analysis/{id}/dashboard/get_center_d4', [DashboardController::class, 'get_center_d4'])->name('get_center_d4');
 Route::post('/data_analysis/{id}/dashboard/dashboard4', [DashboardController::class, 'dashboard4'])->name('dashboard4');
 
+//********************* Dashboard */
+Route::post('/dashboard_infoc/{id}/child01', [DashboardInfoCController::class, 'get_data_child01'])->name('dashboard_infoc_child01');
+Route::post('/dashboard_infoc/{id}/child02', [DashboardInfoCController::class, 'get_data_child02'])->name('dashboard_infoc_child02');
+Route::post('/dashboard_infoc/{id}/child03', [DashboardInfoCController::class, 'get_data_child03'])->name('dashboard_infoc_child03');
+
+
 //********************* Search Operation */
 Route::get('/data_analysis/{id}/search_operation', [SearchOperationController::class, 'index'])->name('search_operation');
 Route::get('/data_analysis/{id}/search_operation/get_all_parameter', [SearchOperationController::class, 'get_all_parameter'])->name('get_all_parameter');
@@ -131,7 +145,7 @@ Route::get('/user/{id}/edit',[AdminController::class,'edit'])->name('edit_user')
 Route::post('/user/{id}/update',[AdminController::class,'update'])->name('update_user');
 
 Route::get('/user/change-password/index', [AdminController::class, 'change_password_index'])->name('change_password_index');
-Route::get('/user/change-password', [AdminController::class, 'change_password'])->name('change_password');
+Route::post('/user/change-password', [AdminController::class, 'change_password'])->name('change_password');
 Route::get('/user/{id}/reset_password/index', [AdminController::class, 'reset_password_index'])->name('reset_password_index');
 Route::post('/user/reset_password', [AdminController::class, 'reset_password'])->name('reset_password');
 
@@ -146,6 +160,11 @@ Route::get('/admin/user_role/index', [UserRoleController::class, 'index']);
 Route::get('/admin/user_role/get_user_data', [UserRoleController::class, 'get_user_data'])->name('get_user_data');
 Route::get('/admin/{user_id}/user_role/get_user_role', [UserRoleController::class, 'get_user_role'])->name('get_user_role');
 Route::post('/admin/{user_id}/user_role/save_user_role', [UserRoleController::class, 'save_user_role'])->name('save_user_role');
+
+
+Route::get('/admin/download/index', [DownloadController::class, 'index'])->name('download_index');
+Route::post('/admin/download/download', [DownloadController::class, 'download'])->name('download');
+
 
 
 //***************** Support Info */
@@ -169,6 +188,7 @@ Route::get('/resp_panel/resp_dropdown/resp_data',[RespondentpanelController::cla
 Route::post('/resp_panel/filter_parameter/get_data',[RespondentpanelController::class, 'get_data']);
 Route::get('/resp_panel/report_column/table_column',[RespondentpanelController::class, 'table_column']);
 Route::post('/resp_panel/export_excel/excel_data',[RespondentpanelController::class, 'excel_data']);
+
 //*****************************Respondent Panel setting*/
 Route::get('/resp_panel/{id}/panel_setting',[RespondentpanelController::class, 'index_setting'])->name('panel_setting');
 Route::get('/resp_panel/set_column/all_column',[RespondentpanelController::class, 'get_column']);

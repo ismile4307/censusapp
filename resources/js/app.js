@@ -57,6 +57,7 @@ import UserTypeComponent from './components/admin/UserTypeComponent.vue';
 app.component('user_type-component', UserTypeComponent);
 // Vue.component('user_type-component', require('./components/UserTypeComponent.vue').default);
 
+
 import UserRoleComponent from './components/admin/UserRoleComponent.vue';
 app.component('user_role-component', UserRoleComponent);
 import SupportInfoComponent from './components/settings/SupportInfoComponent.vue';
@@ -64,11 +65,16 @@ app.component('support_info-component', SupportInfoComponent);
 import ProjectUsersComponent from './components/settings/ProjectUsersComponent.vue';
 app.component('project_users-component', ProjectUsersComponent);
 
-import FirstComponent from './components/dashboard/FirstComponent.vue';
-import SecondComponent from './components/dashboard/SecondComponent.vue';
-import ThirdComponent from './components/dashboard/ThirdComponent.vue';
-import ForthComponent from './components/dashboard/ForthComponent.vue';
-import FifthComponent from './components/dashboard/FifthComponent.vue';
+
+// Project Teaf
+import TeafDashboardComponent from './components/dashboard/Teaf/MotherTeafComponent.vue';
+app.component('dashboard_teaf-component', TeafDashboardComponent);
+
+import FirstComponent from './components/dashboard/Teaf/FirstComponent.vue';
+import SecondComponent from './components/dashboard/Teaf/SecondComponent.vue';
+import ThirdComponent from './components/dashboard/Teaf/ThirdComponent.vue';
+import ForthComponent from './components/dashboard/Teaf/ForthComponent.vue';
+import FifthComponent from './components/dashboard/Teaf/FifthComponent.vue';
 
 
 app.component('first-component', FirstComponent);
@@ -76,7 +82,31 @@ app.component('second-component', SecondComponent);
 app.component('third-component', ThirdComponent);
 app.component('forth-component', ForthComponent);
 app.component('fifth-component', FifthComponent);
+// End of Projec teaf
 
+// Project InfoC
+import InfoCDashboardComponent from './components/dashboard/InfoC_Consumer/MotherInfoCComponent.vue';
+app.component('dashboard_infoc-component', InfoCDashboardComponent);
+
+import Child01Component from './components/dashboard/InfoC_Consumer/Child01Component.vue';
+import Child02Component from './components/dashboard/InfoC_Consumer/Child02Component.vue';
+import Child03Component from './components/dashboard/InfoC_Consumer/Child03Component.vue';
+import Child04Component from './components/dashboard/InfoC_Consumer/Child04Component.vue';
+import Child05Component from './components/dashboard/InfoC_Consumer/Child05Component.vue';
+import Child06Component from './components/dashboard/InfoC_Consumer/Child06Component.vue';
+import Child07Component from './components/dashboard/InfoC_Consumer/Child07Component.vue';
+import Child08Component from './components/dashboard/InfoC_Consumer/Child08Component.vue';
+
+
+app.component('child01-component', Child01Component);
+app.component('child02-component', Child02Component);
+app.component('child03-component', Child03Component);
+app.component('child04-component', Child04Component);
+app.component('child05-component', Child05Component);
+app.component('child06-component', Child06Component);
+app.component('child07-component', Child07Component);
+app.component('child08-component', Child08Component);
+// End of Projec teaf
 
 //Respondent Panel Component link
 import RespondentPanelComponen from './components/resp_panel/RespondentPanelComponent.vue';

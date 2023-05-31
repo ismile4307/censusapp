@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dash')
 
 @section('style')
 
@@ -8,7 +8,11 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <dashboard-component :project_id={{$project->id}}></dashboard-component>
+            @if($project->project_code==23002)
+                <dashboard_teaf-component :project_id={{$project->id}}></dashboard_teaf-component>
+            @elseif($project->project_code==239031)
+                <dashboard_infoc-component :project_id={{$project->id}}></dashboard_infoc-component>
+            @endif
             {{-- <div class="card">
                 <div class="card-header">{{ __('Frequency Table') }}</div>
 

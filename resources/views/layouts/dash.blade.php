@@ -56,7 +56,7 @@
     <!-- JQVMap -->
     <!-- <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css"> -->
     <!-- Theme style -->
-    <link rel="stylesheet" href="http://localhost:8000/dist/css/adminlte.min.css">
+    {{-- <link rel="stylesheet" href="http://localhost:8000/dist/css/adminlte.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
     {{-- <link rel="stylesheet" href="http://localhost:8000/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"> --}}
@@ -67,7 +67,6 @@
 
 
     @yield('style')
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed" onload="activeMenu()">

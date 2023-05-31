@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
 use App\Classes\MyClass;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Exports\RespSearDataExport;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Http\Controllers\Controller;
 
 
 use DB;
@@ -103,11 +105,12 @@ class RespondentpanelController extends Controller
 
         $where = $this->get_where_syntax($selected_filter_values, $field_name);
 
-        $db_results = DB::select(' SELECT '.$str_field_name.' FROM resp_panels WHERE '.$where);
+        $db_results_total = DB::select(' SELECT count(id) as total FROM resp_panels WHERE '.$where. ' LIMIT 50');
+        $db_results = DB::select(' SELECT '.$str_field_name.' FROM resp_panels WHERE '.$where. ' LIMIT 50');
         //dd(" SELECT ".$str_field_name." FROM resp_panels WHERE ".$where);
 
         if($db_results!==null){
-            return $db_results; 
+            return [$db_results_total,$db_results]; 
         }else{
             return "Please try again";
         }
